@@ -10,4 +10,5 @@ Gabriel Santos (113682)
 ## Link úteis
 - [API](http://192.168.160.58/Olympics/)
 - [Documentação API](http://192.168.160.58/Olympics/Help)
+- [IOC Country Codes](https://en.wikipedia.org/wiki/List_of_IOC_country_codes)
 - [Projeto](https://github.com/users/davidffa/projects/1/)
