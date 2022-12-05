@@ -1,6 +1,6 @@
 # Projeto ITW
 
-Projeto final de Introdução às Tecnologias Web - [Universidade de Aveiro](https://ua.pt) 2022/23
+Projeto final de [Introdução às Tecnologias Web](https://www.ua.pt/pt/uc/12289) - [Universidade de Aveiro](https://www.ua.pt) 2022/23
 
 Turma P3 - Grupo 01
 
