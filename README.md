@@ -4,7 +4,7 @@ Projeto final de Introdução às Tecnologias Web - [Universidade de Aveiro](htt
 
 Turma P3 - Grupo 01
 
-David Amorim (112610)
+David Amorim (112610) <br />
 Gabriel Santos (113682)
 
 ## Link úteis
