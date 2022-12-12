@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Condensed&display=swap">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -18,10 +18,10 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-ligh bg-light fixed-top">
     <div class="container">
       <a class="navbar-brand" href="index.html" tabindex="Olympics">
-        <img src="./assets/Olympic_Rings.svg" height="24" />
+        <img src="./assets/Olympic_Rings.svg" height="36" />
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="athletes.html">
+            <a class="nav-link active" aria-current="page" href="athletes.html">
               <i class="fa fa-user-o text-warning"></i> Athletes
             </a>
           </li>
@@ -45,7 +45,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="games.html">
+            <a class="nav-link" aria-current="page" href="games.html">
               <i class="fa fa-map-marker text-success"></i> Games
             </a>
           </li>
@@ -59,9 +59,122 @@
     </div>
   </nav>
 
+  <!-- Working Area -->
+  <div class="container">
+    <div class="border-bottom py-2 mb-2">
+      <h2 data-bind="text:displayName"></h2>
+    </div>
+    <!-- ko if:records().length > 0 -->
+    <div class="row small">
+      <p class=" col-4 mr-auto pt-2">
+        <span data-bind="html: 'Page: ' + currentPage() + ' of ' + totalPages()"></span><br />
+        <span data-bind="html: 'Athletes: '+ fromRecord() + '-' + toRecord() + ' of ' + totalRecords()"></span>
+      </p>
+      <div class="col-8 my-0 pt-3">
+        <ul class="pagination float-end">
+          <!-- ko if: currentPage() > 3 && totalPages() > 5 -->
+          <li class="page-item float-end"><a class="page-link" title="First Page"
+              data-bind="attr: { href: './athletes.html?page=' + '1',  rel:'prev'}"><i
+                class="fa fa-fast-backward"></i></a></li>
+          <li class="page-item float-end"><a class="page-link" title="Previous Page"
+              data-bind="attr: { href: './athletes.html?page=' + previousPage(),  rel:'prev'}"><i
+                class="fa fa-backward"></i></a></li>
+          <!-- /ko -->
+          <!-- ko foreach: pageArray()-->
+          <!-- ko if:$data == $parent.currentPage() -->
+          <li class="active page-item"><a class="page-link"
+              data-bind="attr: { title:'Current Page ' + $data }, text: $data"></a></li>
+          <!-- /ko -->
+          <!-- ko if:$data != $parent.currentPage() -->
+          <li class="page-item"><a class="page-link"
+              data-bind="attr: { href: './athletes.html?page=' + $data, title:'Goto Page ' + $data }, text:$data"></a>
+          </li>
+          <!-- /ko -->
+          <!-- /ko -->
+          <!-- ko if: currentPage() < totalPages() - 2 && totalPages() > 5 -->
+          <li class="page-item"><a class="page-link" title="Next Page"
+              data-bind="attr: { href: './athletes.html?page=' + nextPage(), rel:'next' }"><i
+                class="fa fa-forward"></i></a></li>
+          <li class="page-item"><a class="page-link" title="Last Page"
+              data-bind="attr: { href: './athletes.html?page=' + totalPages() }"><i class="fa fa-fast-forward"></i></a>
+          </li>
+          <!-- /ko -->
+        </ul>
+      </div>
+    </div>
+    <!-- /ko -->
+
+    <table class="table table-hover">
+      <thead class="table-secondary">
+        <tr>
+
+          <th scope="col">NAME</th>
+          <th scope="col">GENDER</th>
+          <th scope="col">BEST POSITION</th>
+          <th class="" scope="col">
+            <div class="input-group d-flex justify-content-end">
+              <div class="form-outline">
+                <input type="search" id="form1" placeholder="Search athlete" class="form-control form-control-sm" />
+              </div>
+              <button type="button" class="btn btn-sm">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: records">
+        <tr>
+          <td class="align-middle">
+            <img style="border-radius: 50%;" data-bind="attr: { src: Photo }" height="40" width="40" />
+            <span class="ms-2" data-bind="text:Name"></span>
+          </td>
+          <td class="align-middle" data-bind="text:Sex"></td>
+          <td class="align-middle" data-bind="text:BestPosition + 'º'"></td>
+          <td class="text-end">
+            <a class="btn btn-default btn-light btn-xs" data-bind="attr: { href:'./gameDetails.html?id=' + Id }">
+              <i class="fa fa-eye" title="Selecione para ver detalhes"></i>
+            </a>
+            <button class="btn btn-default btn-xs">
+              <i class="fa fa-heart-o" data-bind="attr : { 'id': 'favourite_' + Id }"
+                title="Selecione para adicionar aos favoritos"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            <img src="./assets/Olympic_Rings.svg" height="30" /> Loading data...
+          </h5>
+        </div>
+        <div class="modal-body text-center">
+          <i class="fa fa-spin fa-3x fa-refresh"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-light bg-light fixed-bottom">
+    <div class="container small">
+      <div class="navbar-text">&copy; Introdução as Tecnologias Web - 2022/23</div>
+      <div class="navbar-nav">
+        <div class="nav-item text-end"><a href="https://www.ua.pt" class="nav-link">Universidade de Aveiro</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
   <script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"></script>
+  <script src="./athletes.js"></script>
 </body>
 
 </html>
