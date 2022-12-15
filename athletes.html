@@ -111,13 +111,23 @@
           <th scope="col">NAME</th>
           <th scope="col">GENDER</th>
           <th class="" scope="col">
-            <div class="input-group d-flex justify-content-end">
-              <div class="form-outline">
-                <input type="search" id="searchBar" placeholder="Search athlete" class="form-control form-control-sm" />
+
+            <div class="input-group d-flex justify-content-around">
+              <div>
+                <select class="form-select form-select-sm" data-bind="options: countries" id="countriesSelect">
+                  <option value="All Countries"></option>
+                </select>
               </div>
-              <button type="button" id="searchBtn" class="btn btn-sm">
-                <i class="fa fa-search"></i>
-              </button>
+
+              <div class="d-flex">
+                <div class="form-outline">
+                  <input type="search" id="searchBar" placeholder="Search athlete"
+                    class="form-control form-control-sm" />
+                </div>
+                <button type="button" id="searchBtn" class="btn btn-sm">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
             </div>
           </th>
         </tr>

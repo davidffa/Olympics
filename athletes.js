@@ -3,7 +3,7 @@ var vm = function () {
   console.log('ViewModel initiated...');
   //---Variáveis locais
   var self = this;
-  self.baseUri = ko.observable('http://192.168.160.58/Olympics/api/athletes');
+  self.baseUri = ko.observable('http://192.168.160.58/Olympics/api');
   self.displayName = 'Olympic Athletes List';
   self.error = ko.observable('');
   self.passingMessage = ko.observable('');
@@ -42,10 +42,14 @@ var vm = function () {
     return list;
   };
   self.loading = ko.observable(true);
+  self.countries = ko.observableArray([]);
+
+  let countries;
 
   //--- Page Events
   self.activate = function (id) {
     loadAthletes(id);
+    loadCountries();
 
     // When searchbar input is modified
     $("#searchBar").on("input", () => {
@@ -63,11 +67,28 @@ var vm = function () {
     $("#searchBtn").click(() => {
       searchAthletes($("#searchBar").val());
     });
+
+    $("#countriesSelect").change(() => {
+      const country = countries.find(c => c.Name === $("#countriesSelect").val());
+      if (!country) return;
+
+      loadAthletesByCountry(self.currentPage(), country.IOC);
+    });
   };
+
+  function loadCountries() {
+    const url = `${self.baseUri()}/countries?page=1&pagesize=300`;
+    ajaxHelper(url, 'GET').done((data) => {
+      countries = data.Records;
+      const countryNames = data.Records.map(c => c.Name);
+      countryNames.unshift("All Countries")
+      self.countries(countryNames);
+    });
+  }
 
   function loadAthletes(id) {
     console.log('CALL: getAthletes...');
-    var composedUri = self.baseUri() + "?page=" + id + "&pageSize=" + self.pagesize();
+    var composedUri = `${self.baseUri()}/athletes?page=${id}&pageSize=${self.pagesize()}`;
 
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
@@ -87,6 +108,26 @@ var vm = function () {
     });
   }
 
+  function loadAthletesByCountry(id, ioc) {
+    console.log('CALL: getAthletesByCountry...');
+    var composedUri = `${self.baseUri()}/athletes/byioc?ioc=${ioc}&page=${id}&pageSize=${self.pagesize()}`;
+
+    ajaxHelper(composedUri, 'GET').done(function (data) {
+      console.log(data);
+
+      applyPhotos(data.Records);
+
+      hideLoading();
+      self.records(data.Records);
+      self.currentPage(data.CurrentPage);
+      self.hasNext(data.HasNext);
+      self.hasPrevious(data.HasPrevious);
+      self.pagesize(data.PageSize)
+      self.totalPages(data.TotalPages);
+      self.totalRecords(data.TotalRecords);
+    });
+  }
+
   function applyPhotos(records) {
     for (const record of records) {
       if (record.Photo === null) {
@@ -100,7 +141,7 @@ var vm = function () {
   }
 
   function searchAthletes(query) {
-    const url = `${self.baseUri()}/searchbyname?q=${query}`;
+    const url = `${self.baseUri()}/athletes/searchbyname?q=${query}`;
 
     ajaxHelper(url, 'GET').done((data) => {
       data = data.slice(0, 20);
