@@ -41,23 +41,38 @@ var vm = function () {
       list.push(i + step);
     return list;
   };
+  self.loading = ko.observable(true);
 
   //--- Page Events
   self.activate = function (id) {
+    loadAthletes(id);
+
+    // When searchbar input is modified
+    $("#searchBar").on("input", () => {
+      const value = $("#searchBar").val();
+
+      if (value.length < 3) {
+        if (value.length === 0) {
+          loadAthletes(1);
+        }
+        return;
+      }
+      searchAthletes(value);
+    });
+
+    $("#searchBtn").click(() => {
+      searchAthletes($("#searchBar").val());
+    });
+  };
+
+  function loadAthletes(id) {
     console.log('CALL: getAthletes...');
     var composedUri = self.baseUri() + "?page=" + id + "&pageSize=" + self.pagesize();
+
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
 
-      for (const record of data.Records) {
-        if (record.Photo === null) {
-          if (record.Sex === "M") {
-            record.Photo = "./assets/male.svg";
-          } else {
-            record.Photo = "./assets/female.svg"
-          }
-        }
-      }
+      applyPhotos(data.Records);
 
       hideLoading();
       self.records(data.Records);
@@ -67,9 +82,40 @@ var vm = function () {
       self.pagesize(data.PageSize)
       self.totalPages(data.TotalPages);
       self.totalRecords(data.TotalRecords);
+      self.loading(false);
       //self.SetFavourites();
     });
-  };
+  }
+
+  function applyPhotos(records) {
+    for (const record of records) {
+      if (record.Photo === null) {
+        if (record.Sex === "M") {
+          record.Photo = "./assets/male.svg";
+        } else {
+          record.Photo = "./assets/female.svg"
+        }
+      }
+    }
+  }
+
+  function searchAthletes(query) {
+    const url = `${self.baseUri()}/searchbyname?q=${query}`;
+
+    ajaxHelper(url, 'GET').done((data) => {
+      data = data.slice(0, 20);
+      applyPhotos(data);
+
+      self.records(data);
+      self.totalRecords(20);
+      // self.currentPage(data.CurrentPage);
+      // self.hasNext(data.HasNext);
+      // self.hasPrevious(data.HasPrevious);
+      // self.pagesize(data.PageSize)
+      // self.totalPages(data.TotalPages);
+      // self.totalRecords(data.TotalRecords);
+    });
+  }
 
   //--- Internal functions
   function ajaxHelper(uri, method, data) {
@@ -134,4 +180,15 @@ $(document).ready(function () {
 
 $(document).ajaxComplete(function (event, xhr, options) {
   $("#myModal").modal('hide');
-})
+});
+
+
+
+
+
+
+// $("searchBar").click(function () {
+//   $.get("getPageAddress", function (data, status) {
+//   alert("Data: " + data + "\nStatus: " + status);
+//   });
+// });
