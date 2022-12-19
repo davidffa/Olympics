@@ -43,13 +43,49 @@ var vm = function () {
   };
   self.loading = ko.observable(true);
   self.countries = ko.observableArray([]);
+  self.selectedCountry = ko.observable('all');
 
   let countries;
 
   //--- Page Events
-  self.activate = function (id) {
-    loadAthletes(id);
-    loadCountries();
+  self.activate = function (id, countryName) {
+    self.currentPage(id);
+    self.selectedCountry(countryName);
+
+    // Load countries
+    const url = `${self.baseUri()}/countries?page=1&pagesize=300`;
+    ajaxHelper(url, 'GET').done((data) => {
+      countries = data.Records;
+      const countryNames = data.Records.map(c => c.Name);
+      countryNames.unshift("All Countries")
+      self.countries(countryNames);
+
+      if (countryName && countryName !== 'all') {
+        const country = countries.find(c => c.Name === countryName);
+        if (!country) {
+          loadAthletes(id);
+          return;
+        }
+
+        $("#countriesSelect").val(countryName).change();
+        loadAthletesByCountry(self.currentPage());
+      } else {
+        loadAthletes(id);
+      }
+
+      $("#countriesSelect").change(() => {
+        showLoading();
+        const country = countries.find(c => c.Name === $("#countriesSelect").val());
+        if (!country) {
+          self.selectedCountry("all");
+          loadAthletes(self.currentPage());
+          return;
+        }
+        self.selectedCountry(country.Name);
+        loadAthletesByCountry(self.currentPage());
+      });
+    });
+
 
     // When searchbar input is modified
     $("#searchBar").on("input", () => {
@@ -67,24 +103,7 @@ var vm = function () {
     $("#searchBtn").click(() => {
       searchAthletes($("#searchBar").val());
     });
-
-    $("#countriesSelect").change(() => {
-      const country = countries.find(c => c.Name === $("#countriesSelect").val());
-      if (!country) return;
-
-      loadAthletesByCountry(self.currentPage(), country.IOC);
-    });
   };
-
-  function loadCountries() {
-    const url = `${self.baseUri()}/countries?page=1&pagesize=300`;
-    ajaxHelper(url, 'GET').done((data) => {
-      countries = data.Records;
-      const countryNames = data.Records.map(c => c.Name);
-      countryNames.unshift("All Countries")
-      self.countries(countryNames);
-    });
-  }
 
   function loadAthletes(id) {
     console.log('CALL: getAthletes...');
@@ -108,9 +127,10 @@ var vm = function () {
     });
   }
 
-  function loadAthletesByCountry(id, ioc) {
+  function loadAthletesByCountry(id) {
     console.log('CALL: getAthletesByCountry...');
-    var composedUri = `${self.baseUri()}/athletes/byioc?ioc=${ioc}&page=${id}&pageSize=${self.pagesize()}`;
+    const { IOC } = countries.find(c => c.Name === self.selectedCountry());
+    var composedUri = `${self.baseUri()}/athletes/byioc?ioc=${IOC}&page=${id}&pageSize=${self.pagesize()}`;
 
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
@@ -205,11 +225,13 @@ var vm = function () {
   //--- start ....
   showLoading();
   var pg = getUrlParameter('page');
+  var country = getUrlParameter('country');
+  console.log(country);
   console.log(pg);
   if (pg == undefined)
-    self.activate(1);
+    self.activate(1, country);
   else {
-    self.activate(pg);
+    self.activate(pg, country);
   }
   console.log("VM initialized!");
 };
@@ -222,14 +244,3 @@ $(document).ready(function () {
 $(document).ajaxComplete(function (event, xhr, options) {
   $("#myModal").modal('hide');
 });
-
-
-
-
-
-
-// $("searchBar").click(function () {
-//   $.get("getPageAddress", function (data, status) {
-//   alert("Data: " + data + "\nStatus: " + status);
-//   });
-// });
