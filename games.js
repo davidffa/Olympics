@@ -41,14 +41,24 @@ var vm = function () {
             list.push(i + step);
         return list;
     };
+    self.season = ko.observable();
 
     //--- Page Events
-    self.activate = function (id) {
+    self.activate = function (id, season) {
+        if (["winter", "summer"].includes(season)) {
+            self.season(season);
+        }
+
         console.log('CALL: getGames...');
         var composedUri = self.baseUri() + "?page=" + id + "&pageSize=" + self.pagesize();
         ajaxHelper(composedUri, 'GET').done(function (data) {
             console.log(data);
             hideLoading();
+
+            if (self.season() === "winter" || self.season() === "summer") {
+                data.Records = data.Records.filter(r => r.Name.toLowerCase().includes(self.season()));
+            }
+
             self.records(data.Records);
             self.currentPage(data.CurrentPage);
             self.hasNext(data.HasNext);
@@ -58,7 +68,16 @@ var vm = function () {
             self.totalRecords(data.TotalRecords);
             //self.SetFavourites();
         });
-    };
+
+        $("#winter").click(() => {
+            self.season("winter")
+        });
+
+        $("#summer").click(() => {
+            self.season("summer")
+        });
+    }
+
 
     //--- Internal functions
     function ajaxHelper(uri, method, data) {
@@ -112,11 +131,12 @@ var vm = function () {
     //--- start ....
     showLoading();
     var pg = getUrlParameter('page');
+    var season = getUrlParameter('season');
     console.log(pg);
     if (pg == undefined)
-        self.activate(1);
+        self.activate(1, season);
     else {
-        self.activate(pg);
+        self.activate(pg, season);
     }
     console.log("VM initialized!");
 };
@@ -128,4 +148,4 @@ $(document).ready(function () {
 
 $(document).ajaxComplete(function (event, xhr, options) {
     $("#myModal").modal('hide');
-})
+});

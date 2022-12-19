@@ -76,26 +76,26 @@
                 <ul class="pagination float-end">
                     <!-- ko if: currentPage() > 5 && totalPages() > 10 -->
                     <li class="page-item float-end"><a class="page-link" title="First Page"
-                            data-bind="attr: { href: './games.html?page=' + '1',  rel:'prev'}">⇤</a></li>
+                            data-bind="attr: { href: './games.html?page=' + '1' + '&season=' + season(),  rel:'prev'}">⇤</a></li>
                     <li class="page-item float-end"><a class="page-link" title="Previous Page"
-                            data-bind="attr: { href: './games.html?page=' + previousPage(),  rel:'prev'}">←</a></li>
+                            data-bind="attr: { href: './games.html?page=' + previousPage() + '&season=' + season(),  rel:'prev'}">←</a></li>
                     <!-- /ko -->
                     <!-- ko foreach: pageArray()-->
                     <!-- ko if:$data == $parent.currentPage() -->
                     <li class="active page-item"><a class="page-link"
-                            data-bind="attr: { title:'Current Page ' + $data }, text: $data"></a></li>
+                            data-bind="attr: { title:'Current Page ' + $data + '&season=' + $parent.season()}, text: $data"></a></li>
                     <!-- /ko -->
                     <!-- ko if:$data != $parent.currentPage() -->
                     <li class="page-item"><a class="page-link"
-                            data-bind="attr: { href: './games.html?page=' + $data, title:'Goto Page ' + $data }, text:$data"></a>
+                            data-bind="attr: { href: './games.html?page=' + $data + '&season=' + $parent.season(), title:'Goto Page ' + $data }, text:$data"></a>
                     </li>
                     <!-- /ko -->
                     <!-- /ko -->
                     <!-- ko if: currentPage() < totalPages() - 4 && totalPages() > 9 -->
                     <li class="page-item"><a class="page-link" title="Next Page"
-                            data-bind="attr: { href: './games.html?page=' + nextPage(), rel:'next' }">→</a></li>
+                            data-bind="attr: { href: './games.html?page=' + nextPage() + '&season=' + season(), rel:'next' }">→</a></li>
                     <li class="page-item"><a class="page-link" title="Last Page"
-                            data-bind="attr: { href: './games.html?page=' + totalPages() }">⇥</a></li>
+                            data-bind="attr: { href: './games.html?page=' + totalPages() + '&season=' + season()}">⇥</a></li>
                     <!-- /ko -->
                 </ul>
             </div>
@@ -105,17 +105,24 @@
         <table class="table table-striped table-sm small">
             <thead class="bg-dark text-light">
                 <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Year</th>
                     <th scope="col">City Name</th>
                     <th scope="col">Country Name</th>
-                    <th scope="col" class="text-right"></th>
+                    <th scope="col" class="text-right">
+                        <a title="Winter" style="text-decoration: none;"
+                            data-bind="attr: { href: './games.html?page=' + currentPage() + '&season=' + season()}">
+                            <i id="winter" class="fa fa-snowflake-o" style="color: rgb(125, 227, 233)"></i>
+                        </a>
+                        <a title="Summer" style="text-decoration: none;"
+                            data-bind="attr: { href: './games.html?page=' + currentPage() + '&season=' + season()}">
+                            <i id="summer" class="fa fa-sun-o" style="color: yellow"></i>  
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: records">
                 <tr>
-                    <td class="align-middle" data-bind="text:Id"></td>
                     <td class="align-middle" data-bind="text:Name"></td>
                     <td class="align-middle" data-bind="text:Year"></td>
                     <td class="align-middle" data-bind="text:CityName"></td>
