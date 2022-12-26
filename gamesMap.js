@@ -93,7 +93,10 @@ var vm = function () {
   }
 
   function loadMap() {
-    map = L.map('map').setView([loc.latitude, loc.longitude], 5);
+    map = L.map('map', {
+      minZoom: 2,
+      maxZoom: 10,
+    }).setView([loc.latitude, loc.longitude], 5);
 
     // OpenStreetMaps
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
