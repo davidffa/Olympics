@@ -1,3 +1,12 @@
+function prettifyDate(date) {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
+
+  return `${day}/${month}/${year}`;
+}
+
 // ViewModel KnockOut
 var vm = function () {
   console.log('ViewModel initiated...');
@@ -44,6 +53,39 @@ var vm = function () {
   self.loading = ko.observable(true);
   self.countries = ko.observableArray([]);
   self.selectedCountry = ko.observable('all');
+  self.selectedAthlete = ko.observable();
+  self.selectAthlete = function (athlete) {
+    showLoading();
+
+    const url = `${self.baseUri()}/athletes/${athlete.Id}`;
+    ajaxHelper(url, 'GET').done((data) => {
+      if (!isNaN(data.Weight)) {
+        data.Weight = `${data.Weight} Kg`;
+      }
+      if (!isNaN(data.Height)) {
+        data.Height = `${parseInt(data.Height) / 100} m`;
+      }
+
+      if (data.BornDate !== null)
+        data.BornDate = prettifyDate(data.BornDate);
+
+      if (data.DiedDate !== null)
+        data.DiedDate = prettifyDate(data.DiedDate);
+
+      if (data.Sex === "M") {
+        data.Photo = "./assets/male.svg";
+      } else {
+        data.Photo = "./assets/female.svg"
+      }
+
+      self.selectedAthlete(data);
+      hideLoading();
+
+      setTimeout(() => {
+        $("#detailsModal").modal('show');
+      }, 300);
+    });
+  }
 
   let countries;
 
@@ -86,7 +128,6 @@ var vm = function () {
       });
     });
 
-
     // When searchbar input is modified
     $("#searchBar").on("input", () => {
       const value = $("#searchBar").val();
@@ -100,6 +141,7 @@ var vm = function () {
       searchAthletes(value);
     });
 
+    // When search button is clicked
     $("#searchBtn").click(() => {
       searchAthletes($("#searchBar").val());
     });
@@ -170,10 +212,10 @@ var vm = function () {
       self.records(data);
       self.totalRecords(20);
       // self.currentPage(data.CurrentPage);
-      // self.hasNext(data.HasNext);
-      // self.hasPrevious(data.HasPrevious);
+      self.hasNext(false);
+      self.hasPrevious(false);
       // self.pagesize(data.PageSize)
-      // self.totalPages(data.TotalPages);
+      self.totalPages(1);
       // self.totalRecords(data.TotalRecords);
     });
   }

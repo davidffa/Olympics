@@ -110,11 +110,9 @@
     <table class="table table-hover">
       <thead class="table-secondary">
         <tr>
-
           <th scope="col">NAME</th>
           <th scope="col">GENDER</th>
-          <th class="" scope="col">
-
+          <th scope="col">
             <div class="input-group d-flex justify-content-around">
               <div>
                 <select class="form-select form-select-sm" data-bind="options: countries" id="countriesSelect">
@@ -138,7 +136,7 @@
       <!-- ko if:records().length > 0 -->
       <tbody data-bind="foreach: records">
         <tr>
-          <td class="align-middle">
+          <td class="align-middle" data-bind="click: $parent.selectAthlete" role="button">
             <img style="border-radius: 50%;" data-bind="attr: { src: Photo }" height="40" width="40" />
             <span class="ms-2 text-primary" data-bind="text:Name"></span>
           </td>
@@ -157,7 +155,47 @@
     <!-- /ko -->
   </div>
 
-  <!-- Modal -->
+  <!-- Details Modal -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Athlete details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex" data-bind="with: selectedAthlete()">
+          <img class="ms-2" data-bind="attr: { src: Photo }" height="200" width="150">
+          <div class="ms-5">
+            <p data-bind="text: 'Name: ' + Name"></p>
+            <p data-bind="text: 'Gender: ' + Sex"></p>
+            <p data-bind="text: 'Height: ' + Height"></p>
+            <p data-bind="text: 'Weight: ' + Weight"></p>
+            <!-- ko if: BornPlace != null -->
+            <p data-bind="text: 'Born Date: ' + BornDate"></p>
+            <!-- /ko -->
+            <!-- ko if: BornPlace != null -->
+            <p data-bind="text: 'Born Place: ' + BornPlace"></p>
+            <!-- /ko -->
+            <!-- ko if: DiedDate != null -->
+            <p data-bind="text: 'Died Date: ' + DiedDate"></p>
+            <!-- /ko -->
+            <!-- ko if: DiedPlace != null -->
+            <p data-bind="text: 'Died Place: ' + DiedPlace"></p>
+            <!-- /ko -->
+            <!-- ko if: OlympediaLink != null -->
+            <a data-bind="attr: { href: OlympediaLink }" target="_blank" rel="noopener noreferrer">Olympedia Page</a>
+            <!-- /ko -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"><i class="fa fa-heart me-2"></i>Add to favourites</button>
+          <button type="button" class="btn btn-primary">More details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
