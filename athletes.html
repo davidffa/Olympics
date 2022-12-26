@@ -155,15 +155,17 @@
     <!-- /ko -->
   </div>
 
+  <!-- ko if: selectedAthlete !== null -->
   <!-- Details Modal -->
-  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true"
+    data-bind="with: selectedAthlete()">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Athlete details</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body d-flex" data-bind="with: selectedAthlete()">
+        <div class="modal-body d-flex">
           <img class="ms-2" data-bind="attr: { src: Photo }" height="200" width="150">
           <div class="ms-5">
             <p data-bind="text: 'Name: ' + Name"></p>
@@ -189,13 +191,14 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary"><i class="fa fa-heart me-2"></i>Add to favourites</button>
-          <a data-bind="attr: { href: './athleteDetails.html?id=' + selectedAthlete().Id }">
+          <a data-bind="attr: { href: './athleteDetails.html?id=' + Id }">
             <button type="button" class="btn btn-primary">More details</button>
           </a>
         </div>
       </div>
     </div>
   </div>
+  <!-- /ko -->
 
   <!-- Loading Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
