@@ -20,7 +20,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-ligh bg-light fixed-top">
+  <nav class="navbar navbar-expand-lg bg-light fixed-top">
     <div class="container">
       <a class="navbar-brand" href="index.html" tabindex="Olympics">
         <img src="./assets/Olympic_Rings.svg" height="36" />
@@ -63,7 +63,152 @@
 
   <!-- Working Area -->
   <div class="container">
+    <div class="py-2 border-bottom mb-3">
+      <h2 class="fw-bold">Athlete full details</h2>
+    </div>
+    <div class="d-flex">
 
+      <img data-bind="attr: { src: Photo() }" height="300" class="mt-1 mb-3" />
+      <div class="w-75 ms-5">
+        <h4 class="mb-5"><a data-bind="attr: { href: OlympediaLink() }" target="_blank"
+            rel="noopener noreferrer">Olympedia
+            Page</a></h4>
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Name</div>
+          <div class="col-10" data-bind="text: Name()"></div>
+        </div>
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Gender</div>
+          <div class="col-10" data-bind="text: Gender()"></div>
+        </div>
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Height</div>
+          <div class="col-10" data-bind="text: Height()"></div>
+        </div>
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Weight</div>
+          <div class="col-10" data-bind="text: Weight()"></div>
+        </div>
+        <!-- ko if: BornDate() != null -->
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Born Date</div>
+          <div class="col-10" data-bind="text: BornDate()"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: BornPlace() != null -->
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Born Place</div>
+          <div class="col-10" data-bind="text: BornPlace()"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: DiedDate() != null -->
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Died Date</div>
+          <div class="col-10" data-bind="text: DiedDate()"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: DiedPlace() != null -->
+        <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Died Place</div>
+          <div class="col-10" data-bind="text: DiedPlace()"></div>
+        </div>
+        <!-- /ko -->
+      </div>
+    </div>
+
+    <div class="accordion mt-5">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseOne">
+            Games
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+          aria-labelledby="panelsStayOpen-headingOne">
+          <div class="accordion-body">
+            <table class="table table-hover">
+              <thead class="table-secondary">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Year</th>
+                  <td scope="col">Location</td>
+                </tr>
+              </thead>
+              <!-- ko if:Games().length > 0 -->
+              <tbody data-bind="foreach: Games">
+                <tr>
+                  <td class="align-middle">
+                    <img style="border-radius: 50%;" data-bind="attr: { src: Photo }" height="40" width="40" />
+                    <span class="ms-2" data-bind="text:Name"></span>
+                  </td>
+                  <td class="align-middle" data-bind="text:Year"></td>
+                  <td class="align-middle" data-bind="text: CityName + ', ' + CountryName"></td>
+                </tr>
+              </tbody>
+              <!-- /ko -->
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseTwo">
+            Modalities
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+          aria-labelledby="panelsStayOpen-headingTwo">
+          <div class="accordion-body">
+            <div class="row">
+              <!-- ko foreach: Modalities() -->
+              <div class="card mx-auto my-3" style="width: 18rem;">
+                <img data-bind="attr: { src: Photo }" class="card-img-top">
+                <div class="card-body">
+                  <h5 data-bind="text: Name" class="card-title"></h5>
+                </div>
+              </div>
+              <!-- /ko -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseThree">
+            Competitions
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+          aria-labelledby="panelsStayOpen-headingThree">
+          <div class="accordion-body">
+            <table class="table table-hover">
+              <thead class="table-secondary">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Modality</th>
+                  <td scope="col">Results</td>
+                </tr>
+              </thead>
+              <!-- ko if:Games().length > 0 -->
+              <tbody data-bind="foreach: Competitions">
+                <tr>
+                  <td class="ms-2" data-bind="text:Name"></td>
+                  <td class="align-middle" data-bind="text: Modality"></td>
+                  <td class="align-middle" data-bind="text: Results"></td>
+                </tr>
+              </tbody>
+              <!-- /ko -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Loading Modal -->
