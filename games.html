@@ -13,13 +13,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link rel="shortcut icon" href="./assets/Olympic_Rings.svg" type="image/x-icon">
+
     <link rel="stylesheet" href="styles.css" />
 
     <title>ITW 2022/23 - Olympic Games editions List</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html" tabindex="Olympics">
                 <img src="./assets/Olympic_Rings.svg" height="24" />
@@ -66,6 +68,14 @@
         <div class="border-bottom py-2 mb-2">
             <h2 data-bind="text:displayName"></h2>
         </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./gamesMap.html">Map</a>
+            </li>
+        </ul>
         <!-- ko if:records().length > 0 -->
         <div class="row small">
             <p class=" col-4 mr-auto pt-2">
@@ -76,14 +86,17 @@
                 <ul class="pagination float-end">
                     <!-- ko if: currentPage() > 5 && totalPages() > 10 -->
                     <li class="page-item float-end"><a class="page-link" title="First Page"
-                            data-bind="attr: { href: './games.html?page=' + '1' + '&season=' + season(),  rel:'prev'}">⇤</a></li>
+                            data-bind="attr: { href: './games.html?page=' + '1' + '&season=' + season(),  rel:'prev'}">⇤</a>
+                    </li>
                     <li class="page-item float-end"><a class="page-link" title="Previous Page"
-                            data-bind="attr: { href: './games.html?page=' + previousPage() + '&season=' + season(),  rel:'prev'}">←</a></li>
+                            data-bind="attr: { href: './games.html?page=' + previousPage() + '&season=' + season(),  rel:'prev'}">←</a>
+                    </li>
                     <!-- /ko -->
                     <!-- ko foreach: pageArray()-->
                     <!-- ko if:$data == $parent.currentPage() -->
                     <li class="active page-item"><a class="page-link"
-                            data-bind="attr: { title:'Current Page ' + $data + '&season=' + $parent.season()}, text: $data"></a></li>
+                            data-bind="attr: { title:'Current Page ' + $data + '&season=' + $parent.season()}, text: $data"></a>
+                    </li>
                     <!-- /ko -->
                     <!-- ko if:$data != $parent.currentPage() -->
                     <li class="page-item"><a class="page-link"
@@ -93,9 +106,11 @@
                     <!-- /ko -->
                     <!-- ko if: currentPage() < totalPages() - 4 && totalPages() > 9 -->
                     <li class="page-item"><a class="page-link" title="Next Page"
-                            data-bind="attr: { href: './games.html?page=' + nextPage() + '&season=' + season(), rel:'next' }">→</a></li>
+                            data-bind="attr: { href: './games.html?page=' + nextPage() + '&season=' + season(), rel:'next' }">→</a>
+                    </li>
                     <li class="page-item"><a class="page-link" title="Last Page"
-                            data-bind="attr: { href: './games.html?page=' + totalPages() + '&season=' + season()}">⇥</a></li>
+                            data-bind="attr: { href: './games.html?page=' + totalPages() + '&season=' + season()}">⇥</a>
+                    </li>
                     <!-- /ko -->
                 </ul>
             </div>
@@ -116,7 +131,7 @@
                         </a>
                         <a title="Summer" style="text-decoration: none;"
                             data-bind="attr: { href: './games.html?page=' + currentPage() + '&season=' + season()}">
-                            <i id="summer" class="fa fa-sun-o" style="color: yellow"></i>  
+                            <i id="summer" class="fa fa-sun-o" style="color: yellow"></i>
                         </a>
                     </th>
                 </tr>
@@ -172,7 +187,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
     <script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"></script>
-    <script src="script.js"></script>
     <script src="games.js"></script>
 </body>
 
