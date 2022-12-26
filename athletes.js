@@ -52,7 +52,7 @@ var vm = function () {
   };
   self.loading = ko.observable(true);
   self.countries = ko.observableArray([]);
-  self.selectedCountry = ko.observable('all');
+  self.selectedCountry = ko.observable('All Countries');
   self.selectedAthlete = ko.observable();
   self.selectAthlete = function (athlete) {
     showLoading();
@@ -137,7 +137,18 @@ var vm = function () {
 
       if (value.length < 3) {
         if (value.length === 0) {
-          loadAthletes(1);
+          if (self.selectedCountry() && self.selectedCountry() !== 'All Countries') {
+            const country = countries.find(c => c.Name === countryName);
+            if (!country) {
+              loadAthletes(1);
+              return;
+            }
+
+            $("#countriesSelect").val(self.selectedCountry()).change();
+            loadAthletesByCountry(self.currentPage());
+          } else {
+            loadAthletes(1);
+          }
         }
         return;
       }
@@ -206,6 +217,7 @@ var vm = function () {
   }
 
   function searchAthletes(query) {
+    self.loading(true);
     const url = `${self.baseUri()}/athletes/searchbyname?q=${query}`;
 
     ajaxHelper(url, 'GET').done((data) => {
@@ -220,6 +232,7 @@ var vm = function () {
       self.pagesize(data.length)
       self.totalPages(1);
       self.totalRecords(data.length);
+      self.loading(false);
     });
   }
 
