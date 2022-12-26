@@ -14,9 +14,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="countries.css">
 
   <link rel="shortcut icon" href="./assets/Olympic_Rings.svg" type="image/x-icon">
+
+  <style>
+    .card {
+      transition: transform 0.4s, box-shadow 0.4s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 20px 20px 50px grey;
+    }
+  </style>
 
   <title>ITW - Olympics</title>
 </head>
@@ -69,9 +80,6 @@
       <div class="col-12 my-4">
         <div class="input-group input-group-lg flex-nowrap w-50 m-auto">
           <input type="search" id="searchBar" placeholder="Search country" class="form-control" />
-          <button type="button" id="searchBtn" class="btn btn-secondary">
-            <i class="fa fa-search"></i>
-          </button>
         </div>
       </div>
       <hr>
