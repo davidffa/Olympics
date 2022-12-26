@@ -72,10 +72,12 @@ var vm = function () {
       if (data.DiedDate !== null)
         data.DiedDate = prettifyDate(data.DiedDate);
 
-      if (data.Sex === "M") {
-        data.Photo = "./assets/male.svg";
-      } else {
-        data.Photo = "./assets/female.svg"
+      if (data.Photo === null) {
+        if (data.Sex === "M") {
+          data.Photo = "./assets/male.svg";
+        } else {
+          data.Photo = "./assets/female.svg"
+        }
       }
 
       self.selectedAthlete(data);
@@ -131,6 +133,12 @@ var vm = function () {
     // When searchbar input is modified
     $("#searchBar").on("input", () => {
       const value = $("#searchBar").val();
+
+      if (value.length > 0) {
+        $("#countriesSelect").addClass("d-none");
+      } else {
+        $("#countriesSelect").removeClass("d-none");
+      }
 
       if (value.length < 3) {
         if (value.length === 0) {
@@ -211,12 +219,12 @@ var vm = function () {
 
       self.records(data);
       self.totalRecords(20);
-      // self.currentPage(data.CurrentPage);
+      self.currentPage(1);
       self.hasNext(false);
       self.hasPrevious(false);
-      // self.pagesize(data.PageSize)
+      self.pagesize(data.length)
       self.totalPages(1);
-      // self.totalRecords(data.TotalRecords);
+      self.totalRecords(data.length);
     });
   }
 

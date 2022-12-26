@@ -23,7 +23,6 @@ th {
 
 .carousel-item:nth-child(1) {
     background-image: url('https://stillmed.olympics.com/media/Images/OlympicOrg/IOC/What_We_Do/Olympic_Legacy/Legacy_Stories/2019/11/05/Athens-2004/Athens-2004-Edition-Overview.jpg');
-    -ms-high-contrast-adjust: auto;
 }
 
 .carousel-item:nth-child(2) {

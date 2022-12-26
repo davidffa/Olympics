@@ -189,7 +189,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary"><i class="fa fa-heart me-2"></i>Add to favourites</button>
-          <button type="button" class="btn btn-primary">More details</button>
+          <a data-bind="attr: { href: './athleteDetails.html?id=' + selectedAthlete().Id }">
+            <button type="button" class="btn btn-primary">More details</button>
+          </a>
         </div>
       </div>
     </div>
