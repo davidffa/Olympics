@@ -283,7 +283,7 @@ var vm = function () {
   //--- start ....
   showLoading();
   var pg = getUrlParameter('page');
-  var country = getUrlParameter('country').replace("+", " ");
+  var country = getUrlParameter('country').replaceAll("+", " ");
   console.log(country);
   console.log(pg);
   if (pg == undefined)
