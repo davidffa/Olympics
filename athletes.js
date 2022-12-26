@@ -283,7 +283,9 @@ var vm = function () {
   //--- start ....
   showLoading();
   var pg = getUrlParameter('page');
-  var country = getUrlParameter('country').replaceAll("+", " ");
+  var country = getUrlParameter('country');
+  if (country)
+    country = country.replaceAll("+", " ");
   console.log(country);
   console.log(pg);
   if (pg == undefined)
