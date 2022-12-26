@@ -9,6 +9,7 @@ var vm = function () {
   self.records = ko.observableArray([]);
   self.allRecords = ko.observableArray([]);
   self.selectedModality = ko.observable(null);
+  self.loading = ko.observable(true);
 
   self.selectModality = function (modality) {
     showLoading();
@@ -67,12 +68,14 @@ var vm = function () {
   }
 
   function showLoading() {
+    self.loading(true);
     $("#myModal").modal('show', {
       backdrop: 'static',
       keyboard: false
     });
   }
   function hideLoading() {
+    self.loading(false);
     $('#myModal').on('shown.bs.modal', function (e) {
       $("#myModal").modal('hide');
     })
