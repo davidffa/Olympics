@@ -17,6 +17,18 @@
   <link rel="shortcut icon" href="./assets/Olympic_Rings.svg" type="image/x-icon">
 
   <title>ITW - Olympic Modalities</title>
+
+  <style>
+    .card {
+      transition: transform 0.4s, box-shadow 0.4s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 20px 20px 50px grey;
+    }
+  </style>
 </head>
 
 <body>
@@ -63,7 +75,33 @@
 
   <!-- Working Area -->
   <div class="container">
+    <div class="row">
+      <h2 class="text-center fw-bold mt-4">Modalities</h2>
+    </div>
+    <div class="row">
+      <div class="col-12 my-4">
+        <div class="input-group input-group-lg flex-nowrap w-50 m-auto">
+          <input type="search" id="searchBar" placeholder="Search modality" class="form-control" />
+        </div>
+      </div>
+      <hr>
+    </div>
 
+    <div class="row">
+      <!-- ko foreach: records() -->
+      <div class="card mx-auto my-3" style="width: 18rem;" data-bind="click: $parent.selectModality">
+        <img class="card-img-top" data-bind="attr: { src: Photo }" height="200">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title my-3" data-bind="text: Name"></h5>
+          <button class="btn btn-default">
+            <i class="fa fa-heart-o" data-bind="attr : { 'id': 'favourite_' + Id }"
+              title="Selecione para adicionar aos favoritos"></i>
+          </button>
+        </div>
+        </a>
+      </div>
+      <!-- /ko -->
+    </div>
   </div>
 
   <!-- Loading Modal -->

@@ -7,11 +7,32 @@ var vm = function () {
   var self = this;
   self.error = ko.observable('');
   self.records = ko.observableArray([]);
+  self.allRecords = ko.observableArray([]);
+
+  self.selectModality = function (modality) {
+    console.log(modality);
+  }
 
   //--- Page Events
   self.activate = function () {
+    loadModalities();
 
+    $("#searchBar").on("input", () => {
+      const val = $("#searchBar").val();
+      self.records(self.allRecords().filter(it => it.Name.toLowerCase().startsWith(val)));
+    });
   };
+
+  function loadModalities() {
+    const composedUri = `${baseUri}/modalities?page=1&pagesize=70`;
+    ajaxHelper(composedUri, 'GET').done(function (data) {
+      console.log(data);
+
+      self.records(data.Records);
+      self.allRecords(data.Records);
+      hideLoading();
+    });
+  }
 
   //--- Internal functions
   function ajaxHelper(uri, method, data) {
