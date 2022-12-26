@@ -8,9 +8,24 @@ var vm = function () {
   self.error = ko.observable('');
   self.records = ko.observableArray([]);
   self.allRecords = ko.observableArray([]);
+  self.selectedModality = ko.observable(null);
 
   self.selectModality = function (modality) {
-    console.log(modality);
+    showLoading();
+
+    const url = `${baseUri}/modalities/${modality.Id}`;
+    ajaxHelper(url, 'GET').done((data) => {
+      for (const modality of data.Modalities) {
+        if (modality.Photo === null) {
+          modality.Photo = data.Photo;
+        }
+      }
+
+      self.selectedModality(data);
+      hideLoading();
+
+      $("#detailsModal").modal('show');
+    });
   }
 
   //--- Page Events

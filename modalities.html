@@ -19,12 +19,12 @@
   <title>ITW - Olympic Modalities</title>
 
   <style>
-    .card {
+    .carditem {
       transition: transform 0.4s, box-shadow 0.4s;
       cursor: pointer;
     }
 
-    .card:hover {
+    .carditem:hover {
       transform: scale(1.1);
       box-shadow: 20px 20px 50px grey;
     }
@@ -89,7 +89,7 @@
 
     <div class="row">
       <!-- ko foreach: records() -->
-      <div class="card mx-auto my-3" style="width: 18rem;" data-bind="click: $parent.selectModality">
+      <div class="card carditem mx-auto my-3" style="width: 18rem;" data-bind="click: $parent.selectModality">
         <img class="card-img-top" data-bind="attr: { src: Photo }" height="200">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title my-3" data-bind="text: Name"></h5>
@@ -103,6 +103,34 @@
       <!-- /ko -->
     </div>
   </div>
+
+  <!-- ko if: selectedModality !== null -->
+  <!-- Details Modal -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true"
+    data-bind="with: selectedModality()">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" data-bind="text: Name + ' sub-modalities'"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- ko foreach: Modalities -->
+            <div class="card mx-auto my-3" style="width: 18rem;">
+              <img class="card-img-top" data-bind="attr: { src: Photo }" height="200">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title my-3" data-bind="text: Name"></h5>
+              </div>
+              </a>
+            </div>
+            <!-- /ko -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /ko -->
 
   <!-- Loading Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
