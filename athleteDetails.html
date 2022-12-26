@@ -68,11 +68,35 @@
     </div>
     <div class="d-flex">
 
-      <img data-bind="attr: { src: Photo() }" height="300" class="mt-1 mb-3" />
+      <img data-bind="attr: { src: Photo() }" height="300" class="mt-1" />
       <div class="w-75 ms-5">
-        <h4 class="mb-5"><a data-bind="attr: { href: OlympediaLink() }" target="_blank"
+        <h4 class="mb-4"><a data-bind="attr: { href: OlympediaLink() }" target="_blank"
             rel="noopener noreferrer">Olympedia
             Page</a></h4>
+        <div class="mb-5">
+          <h4>Medals:</h4>
+          <!-- ko if: Medals().length == 0 -->
+          <span>None :(</span>
+          <!-- /ko -->
+
+          <!-- ko if: Medals().length > 0 -->
+          <div class="d-flex justify-content-between w-25 mt-4">
+            <div class="d-flex flex-column align-items-center">
+              <img src="./assets/gold.svg" alt="gold medal" height="50">
+              <p data-bind="text: GoldCount()"></p>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+              <img src="./assets/silver.svg" alt="silver medal" height="50">
+              <p data-bind="text: SilverCount()"></p>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+
+              <img src="./assets/bronze.svg" alt="bronze medal" height="50">
+              <p data-bind="text: BronzeCount()"></p>
+            </div>
+          </div>
+          <!-- /ko -->
+        </div>
         <div class="row border-bottom mx-0 my-2">
           <div class="col-2">Name</div>
           <div class="col-10" data-bind="text: Name()"></div>

@@ -25,6 +25,9 @@ var vm = function () {
   self.Modalities = ko.observableArray([]);
   self.Competitions = ko.observableArray([]);
   self.Medals = ko.observableArray([]);
+  self.GoldCount = ko.observable(0);
+  self.SilverCount = ko.observable(0);
+  self.BronzeCount = ko.observable(0);
 
   const baseUri = 'http://192.168.160.58/Olympics/api';
 
@@ -61,6 +64,21 @@ var vm = function () {
 
       if (data.DiedDate != null) {
         data.DiedDate = prettifyDate(data.DiedDate);
+      }
+
+      for (const medal of data.Medals) {
+        console.log(medal);
+        switch (medal.MedalName) {
+          case "Gold":
+            self.GoldCount(medal.Counter);
+            break;
+          case "Silver":
+            self.SilverCount(medal.Counter);
+            break;
+          case "Bronze":
+            self.BronzeCount(medal.Counter);
+            break;
+        }
       }
 
       console.log(data);
