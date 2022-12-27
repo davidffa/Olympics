@@ -64,8 +64,6 @@ var vm = function () {
       console.log(data);
 
       self.records(data.Records);
-
-      hideLoading();
     });
 
     navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -96,6 +94,7 @@ var vm = function () {
     map = L.map('map', {
       minZoom: 2,
       maxZoom: 10,
+      maxBoundsViscosity: 1.0
     }).setView([loc.latitude, loc.longitude], 5);
     const bounds = L.latLngBounds([[-90, -180], [90, 180]]);
     map.setMaxBounds(bounds);
@@ -110,10 +109,9 @@ var vm = function () {
     // }).addTo(map);
 
     // MapBox
-    L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZGF2aWRmZmEiLCJhIjoiY2xjNWJvazJhMDk2cTNuc2E2bXV3MzU2bCJ9.h8NGtvVfph5bKZlx1u3tWw", {
-      noWrap: true,
-    }).addTo(map);
+    L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZGF2aWRmZmEiLCJhIjoiY2xjNWJvazJhMDk2cTNuc2E2bXV3MzU2bCJ9.h8NGtvVfph5bKZlx1u3tWw").addTo(map);
     setMarkers();
+    hideLoading();
   }
 
   function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -157,9 +155,7 @@ var vm = function () {
     });
   }
   function hideLoading() {
-    $('#myModal').on('shown.bs.modal', function (e) {
-      $("#myModal").modal('hide');
-    })
+    $("#myModal").modal('hide');
   }
 
   //--- start ....
