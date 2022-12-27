@@ -17,6 +17,14 @@ var vm = function () {
   self.Photo = ko.observable('');
   self.Athletes = ko.observableArray([]);
   self.AllAthletes = ko.observableArray([]);
+  self.searchTerm = ko.observable("");
+  self.SearchedAthletes = ko.computed(() => {
+    if (self.searchTerm() === "") {
+      return self.AllAthletes();
+    } else {
+      return self.AllAthletes().filter((athlete) => athlete.Name.toLowerCase().startsWith(self.searchTerm()));
+    }
+  }, self);
   self.Modalities = ko.observableArray([]);
   self.Competitions = ko.observableArray([]);
   self.GoldCount = ko.observable(0);
@@ -27,7 +35,7 @@ var vm = function () {
   self.currentPage = ko.observable(1);
   self.pagesize = ko.observable(20);
   self.totalRecords = ko.computed(() => {
-    return self.AllAthletes().length;
+    return self.SearchedAthletes().length;
   }, self);
   self.totalPages = ko.computed(() => {
     return Math.ceil(self.totalRecords() / self.pagesize());
@@ -61,8 +69,7 @@ var vm = function () {
   };
 
   function updateItems() {
-    self.Athletes(self.AllAthletes().slice((self.currentPage() - 1) * self.pagesize(), self.currentPage() * self.pagesize()));
-    console.log("UPDATING ITEMS")
+    self.Athletes(self.SearchedAthletes().slice((self.currentPage() - 1) * self.pagesize(), self.currentPage() * self.pagesize()));
   }
 
   self.moveNextPage = () => {
@@ -90,6 +97,13 @@ var vm = function () {
   self.activate = function (id) {
     console.log('CALL: getGameFullDetails...');
     loadGameFullDetails(id);
+
+    $("#searchBar").on("input", () => {
+      self.currentPage(1);
+      self.searchTerm($("#searchBar").val().toLowerCase());
+
+      updateItems();
+    });
   };
 
   function loadGameFullDetails(id) {

@@ -171,13 +171,8 @@
                   <th scope="col">GENDER</th>
                   <th scope="col" class="d-flex justify-content-end">
                     <div class="d-flex">
-                      <div class="form-outline">
-                        <input type="search" id="searchBar" placeholder="Search athlete"
-                          class="form-control form-control-sm" />
-                      </div>
-                      <button type="button" id="searchBtn" class="btn btn-sm">
-                        <i class="fa fa-search"></i>
-                      </button>
+                      <input type="search" id="searchBar" placeholder="Search athlete"
+                        class="form-control form-control-sm" />
                     </div>
                   </th>
                 </tr>
@@ -196,6 +191,12 @@
               </tbody>
               <!-- /ko -->
             </table>
+            <!-- ko if:Athletes().length == 0 -->
+            <div class="alert alert-warning" role="alert">
+              <h4 class="alert-heading">No athletes found!</h4>
+              <p>Try searching for a different athlete.</p>
+            </div>
+            <!-- /ko -->
           </div>
         </div>
       </div>
@@ -245,7 +246,15 @@
               <!-- ko if:Competitions().length > 0 -->
               <tbody data-bind="foreach: Competitions">
                 <tr>
-                  <td class="ms-2" data-bind="text:Name"></td>
+                  <td class="align-middle">
+                    <!-- ko if:Photo != null -->
+                    <img style="border-radius: 50%;" data-bind="attr: { src: Photo }" height="40" width="40" />
+                    <!-- /ko -->
+                    <!-- ko if:Photo == null -->
+                    <img src="./assets/Olympic_Rings_black.svg" width="40" />
+                    <!-- /ko -->
+                    <span class="ms-2" data-bind="text:Name"></span>
+                  </td>
                   <td class="align-middle" data-bind="text: Modality"></td>
                   <td class="align-middle" data-bind="text: Results"></td>
                 </tr>
