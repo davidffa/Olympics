@@ -16,7 +16,7 @@
 
   <link rel="shortcut icon" href="./assets/Olympic_Rings.svg" type="image/x-icon">
 
-  <title>ITW - Olympic Athlete Details</title>
+  <title>ITW - Olympic Game Details</title>
 </head>
 
 <body>
@@ -56,6 +56,11 @@
               <i class="fa fa-soccer-ball-o text-primary"></i> Modalities
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="statistics.html">
+              <i class="fa fa-bar-chart text-danger"></i> Statistics
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -64,22 +69,13 @@
   <!-- Working Area -->
   <div class="container">
     <div class="py-2 border-bottom mb-3">
-      <h2 class="fw-bold">Games full details</h2>
+      <h2 class="fw-bold">Game full details</h2>
     </div>
     <div class="d-flex">
-
       <img data-bind="attr: { src: Photo() }" height="300" class="mt-1" />
       <div class="w-75 ms-5">
-        <h4 class="mb-4"><a data-bind="attr: { href: OlympediaLink() }" target="_blank"
-            rel="noopener noreferrer">Olympedia
-            Page</a></h4>
-        <div class="mb-5">
+        <div class="mb-3">
           <h4>Medals:</h4>
-          <!-- ko if: Medals().length == 0 -->
-          <span>None :(</span>
-          <!-- /ko -->
-
-          <!-- ko if: Medals().length > 0 -->
           <div class="d-flex justify-content-between w-25 mt-4">
             <div class="d-flex flex-column align-items-center">
               <img src="./assets/gold.svg" alt="gold medal" height="50">
@@ -95,11 +91,6 @@
               <p data-bind="text: BronzeCount()"></p>
             </div>
           </div>
-          <!-- /ko -->
-        </div>
-        <div class="row border-bottom mx-0 my-2">
-          <div class="col-2">Country Name</div>
-          <div class="col-10" data-bind="text: CountryName()"></div>
         </div>
         <div class="row border-bottom mx-0 my-2">
           <div class="col-2">Name</div>
@@ -114,17 +105,12 @@
           <div class="col-10" data-bind="text: Season()"></div>
         </div>
         <div class="row border-bottom mx-0 my-2">
+          <div class="col-2">Country Name</div>
+          <div class="col-10" data-bind="text: CountryName()"></div>
+        </div>
+        <div class="row border-bottom mx-0 my-2">
           <div class="col-2">City</div>
           <div class="col-10" data-bind="text: City()"></div>
-        </div>
-        <div class="row border-bottom mx-0 my-2">
-          <div class="col-2">Logo</div>
-          <div class="col-10" data-bind="text: Logo()"></div>
-        </div>
-        <div class="row border-bottom mx-0 my-2">
-          <div class="col-2">Photo</div>
-          <div class="col-10" data-bind="text: Photo()">
-            <img data-bind="attr: { src: Photo() }" height="300" class="mt-1" /></div>
         </div>
       </div>
     </div>
@@ -141,12 +127,74 @@
         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
           aria-labelledby="panelsStayOpen-headingOne">
           <div class="accordion-body">
+            <!-- ko if:Athletes().length > 0 -->
+            <div class="row small">
+              <p class=" col-4 mr-auto pt-2">
+                <span data-bind="html: 'Page: ' + currentPage() + ' of ' + totalPages()"></span><br />
+                <span data-bind="html: 'Athletes: '+ fromRecord() + '-' + toRecord() + ' of ' + totalRecords()"></span>
+              </p>
+              <div class="col-8 my-0 pt-3">
+                <ul class="pagination float-end">
+                  <!-- ko if: currentPage() > 3 && totalPages() > 5 -->
+                  <li class="page-item float-end"><button class="page-link" data-bind="click: moveFirstPage.bind()"><i
+                        class="fa fa-fast-backward"></i></button></li>
+                  <li class="page-item float-end"><button class="page-link" data-bind="click: movePrevPage.bind()"><i
+                        class="fa fa-backward"></i></button></li>
+                  <!-- /ko -->
+                  <!-- ko foreach: pageArray()-->
+                  <!-- ko if:$data == $parent.currentPage() -->
+                  <li class="active page-item"><button class="page-link"
+                      data-bind="text: $data, click: $parent.moveToPage.bind($data)"></button></li>
+                  <!-- /ko -->
+                  <!-- ko if:$data != $parent.currentPage() -->
+                  <li class="page-item"><button class="page-link"
+                      data-bind="text: $data, click: $parent.moveToPage.bind($data)"></button>
+                  </li>
+                  <!-- /ko -->
+                  <!-- /ko -->
+                  <!-- ko if: currentPage() < totalPages() - 2 && totalPages() > 5 -->
+                  <li class="page-item"><button class="page-link" data-bind="click: moveNextPage.bind()"
+                      title="Next Page"><i class="fa fa-forward"></i></button></li>
+                  <li class="page-item"><button class="page-link" data-bind="click: moveLastPage.bind()"
+                      title="Last Page"><i class="fa fa-fast-forward"></i></button>
+                  </li>
+                  <!-- /ko -->
+                </ul>
+              </div>
+            </div>
+            <!-- /ko -->
+
             <table class="table table-hover">
               <thead class="table-secondary">
                 <tr>
-                  <th scope="col">Name</th>
+                  <th scope="col">NAME</th>
+                  <th scope="col">GENDER</th>
+                  <th scope="col" class="d-flex justify-content-end">
+                    <div class="d-flex">
+                      <div class="form-outline">
+                        <input type="search" id="searchBar" placeholder="Search athlete"
+                          class="form-control form-control-sm" />
+                      </div>
+                      <button type="button" id="searchBtn" class="btn btn-sm">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </div>
+                  </th>
                 </tr>
               </thead>
+              <!-- ko if:Athletes().length > 0 -->
+              <tbody data-bind="foreach: Athletes">
+                <tr>
+                  <td class="align-middle">
+                    <img style="border-radius: 50%;" data-bind="attr: { src: Photo }" height="40" width="40" />
+                    <span class="ms-2" data-bind="text:Name"></span>
+                  </td>
+                  <td class="align-middle" data-bind="text:Sex"></td>
+                  <td class="text-end">
+                  </td>
+                </tr>
+              </tbody>
+              <!-- /ko -->
             </table>
           </div>
         </div>
@@ -194,7 +242,7 @@
                   <td scope="col">Results</td>
                 </tr>
               </thead>
-              <!-- ko if:Games().length > 0 -->
+              <!-- ko if:Competitions().length > 0 -->
               <tbody data-bind="foreach: Competitions">
                 <tr>
                   <td class="ms-2" data-bind="text:Name"></td>
