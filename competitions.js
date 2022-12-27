@@ -39,9 +39,18 @@ var vm = function () {
     return list;
   };
   self.loading = ko.observable(true);
+  self.selectedCompetition = ko.observable();
   self.selectCompetition = function (competition) {
-    // TODO: implement this function
-    console.log("Selected competition: ", competition);
+    showLoading();
+    const composedUri = `${baseUri}/competitions/${competition.Id}`;
+    ajaxHelper(composedUri, 'GET').done(function (data) {
+      console.log(data);
+      if (data.Photo === null)
+        data.Photo = './assets/Olympic_Rings_black.svg'
+      self.selectedCompetition(data);
+      hideLoading();
+      $("#detailsModal").modal('show');
+    });
   }
 
   // Page events
@@ -52,9 +61,9 @@ var vm = function () {
   $("#searchBar").on("input", () => {
     const value = $("#searchBar").val();
 
-    if (value.length >= 3) {
+    if (value.length >= 1) {
       searchModalities(value);
-    } else if (value.length === 0) {
+    } else {
       let id = getUrlParameter('page');
       if (id === undefined)
         id = 1;
@@ -72,6 +81,7 @@ var vm = function () {
     const composedUri = `${baseUri}/competitions/searchbyname?q=${val}`;
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
+      applyImages(data);
       self.records(data);
       self.currentPage(1);
       self.hasNext(false);
@@ -83,6 +93,13 @@ var vm = function () {
     });
   }
 
+  function applyImages(data) {
+    for (const it of data) {
+      if (it.Photo === null)
+        it.Photo = './assets/Olympic_Rings_black.svg'
+    }
+  }
+
   function loadCompetitions(id) {
     showLoading();
     self.pagesize = ko.observable(20);
@@ -90,6 +107,7 @@ var vm = function () {
     const composedUri = `${baseUri}/competitions?page=${id}&pagesize=${self.pagesize()}`;
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
+      applyImages(data.Records);
 
       self.records(data.Records);
       self.currentPage(data.CurrentPage);

@@ -149,6 +149,70 @@
     <!-- /ko -->
   </div>
 
+  <!-- ko if: selectedCompetition !== null -->
+  <!-- Details Modal -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true"
+    data-bind="with: selectedCompetition()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Competition details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex">
+            <img class="ms-2" data-bind="attr: { src: Photo }" height="250" width="350">
+            <div class="ms-5">
+              <p data-bind="text: 'Name' + Name"></p>
+              <p data-bind="text: 'Modality' + Modality"></p>
+            </div>
+          </div>
+          <div class="accordion mt-5">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+                  aria-controls="panelsStayOpen-collapseOne">
+                  Participants
+                </button>
+              </h2>
+              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+                aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                  <table class="table table-hover">
+                    <thead class="table-secondary">
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Year</th>
+                        <td scope="col">Location</td>
+                      </tr>
+                    </thead>
+                    <!-- ko if:Participant.length > 0 -->
+                    <tbody data-bind="foreach: Participant">
+                      <tr>
+                        <td class="align-middle">
+                          <img style="border-radius: 50%;" data-bind="attr: { src: Photo }" height="40" width="40" />
+                          <span class="ms-2" data-bind="text:Name"></span>
+                        </td>
+                        <td class="align-middle" data-bind="text:Year"></td>
+                        <td class="align-middle" data-bind="text: CityName + ', ' + CountryName"></td>
+                      </tr>
+                    </tbody>
+                    <!-- /ko -->
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"><i class="fa fa-heart me-2"></i>Add to favourites</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /ko -->
+
   <!-- Loading Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
