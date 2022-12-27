@@ -96,7 +96,7 @@
       </thead>
       <tbody data-bind="foreach: records">
         <tr>
-          <td class="align-middle">
+          <td class="align-middle" data-bind="click: $parent.selectGame" role="button">
             <img style="border-radius: 50%;" data-bind="attr: { src: Logo }" height="40" width="40" />
             <span class="ms-2 text-primary" data-bind="text:Name"></span>
           </td>
@@ -112,6 +112,37 @@
       </tbody>
     </table>
   </div>
+
+  <!-- ko if: selectedGame !== null -->
+  <!-- Details Modal -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true"
+    data-bind="with: selectedGame()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Game details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex">
+          <img class="ms-2" data-bind="attr: { src: Photo }" height="200" width="300">
+          <div class="ms-5">
+            <p data-bind="text: 'Name: ' + Name"></p>
+            <p data-bind="text: 'Year: ' + Year"></p>
+            <p data-bind="text: 'Season: ' + Season"></p>
+            <p data-bind="text: 'City: ' + City"></p>
+            <p data-bind="text: 'Country: ' + CountryName"></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"><i class="fa fa-heart me-2"></i>Add to favourites</button>
+          <a data-bind="attr: { href: './gameDetails.html?id=' + Id }">
+            <button type="button" class="btn btn-primary">More details</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /ko -->
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

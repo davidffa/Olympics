@@ -10,6 +10,18 @@ var vm = function () {
   self.allRecords = ko.observableArray([]);
   // 0 - Winter 1 - Summer 2 - All
   self.season = ko.observable(2);
+  self.selectedGame = ko.observable();
+  self.selectGame = function (game) {
+    showLoading();
+
+    const url = `${BASE_URI}/games/${game.Id}`;
+    ajaxHelper(url, 'GET').done((data) => {
+      self.selectedGame(data);
+      hideLoading();
+
+      $("#detailsModal").modal('show');
+    });
+  }
 
   //--- Page Events
   self.activate = function () {
