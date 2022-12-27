@@ -2,34 +2,54 @@
 var vm = function () {
   console.log('ViewModel initiated...');
   //---Variáveis locais
+  const BASE_URI = "http://192.168.160.58/Olympics/api";
   var self = this;
-  self.baseUri = ko.observable('http://192.168.160.58/Olympics/api/Countries/');
   self.error = ko.observable('');
   //--- Data Record
-  self.Id = ko.observable('');
   self.IOC = ko.observable('');
   self.Name = ko.observable('');
   self.Flag = ko.observable('');
   self.Events = ko.observableArray([]);
   self.Participant = ko.observableArray([]);
   self.Organizer = ko.observableArray([]);
+  self.GoldCount = ko.observable(0);
+  self.SilverCount = ko.observable(0);
+  self.BronzeCount = ko.observable(0);
 
   //--- Page Events
   self.activate = function (id) {
     console.log('CALL: getCountryDetails...');
-    var composedUri = self.baseUri() + id;
+    loadCountryMedals(id);
+    loadCountries(id);
+  };
+
+  function loadCountryMedals(id) {
+    const composedUri = `${BASE_URI}/statistics/medals_country`
+    ajaxHelper(composedUri, 'GET').done(function (data) {
+      console.log(id);
+      console.log(data);
+      const medals = data.find(it => it.CountryId == id).Medals;
+      console.log(medals);
+
+      self.GoldCount(medals[0].Counter);
+      self.SilverCount(medals[1].Counter);
+      self.BronzeCount(medals[2].Counter);
+      hideLoading();
+    });
+  }
+
+  function loadCountries(id) {
+    const composedUri = `${BASE_URI}/countries/${id}`
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
-      self.Id(data.Id);
       self.IOC(data.IOC);
       self.Flag(data.Flag);
       self.Name(data.Name);
       self.Events(data.Events);
       self.Participant(data.Participant);
       self.Organizer(data.Organizer);
-      hideLoading();
     });
-  };
+  }
 
   //--- Internal functions
   function ajaxHelper(uri, method, data) {
@@ -55,9 +75,7 @@ var vm = function () {
     });
   }
   function hideLoading() {
-    $('#myModal').on('shown.bs.modal', function (e) {
-      $("#myModal").modal('hide');
-    })
+    $("#myModal").modal('hide');
   }
 
   function getUrlParameter(sParam) {

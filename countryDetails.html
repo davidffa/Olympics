@@ -76,6 +76,25 @@
 
     <a href="./countries.html" class="btn btn-default mb-4"><i class="fa fa-list"></i> Back to List</a>
 
+    <div class="mb-2">
+      <h4>Medals:</h4>
+      <div class="d-flex justify-content-between w-25 mt-4">
+        <div class="d-flex flex-column align-items-center">
+          <img src="./assets/gold.svg" alt="gold medal" height="50">
+          <p data-bind="text: GoldCount()"></p>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <img src="./assets/silver.svg" alt="silver medal" height="50">
+          <p data-bind="text: SilverCount()"></p>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+
+          <img src="./assets/bronze.svg" alt="bronze medal" height="50">
+          <p data-bind="text: BronzeCount()"></p>
+        </div>
+      </div>
+    </div>
+
     <div class="accordion" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
