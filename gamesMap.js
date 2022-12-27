@@ -97,18 +97,22 @@ var vm = function () {
       minZoom: 2,
       maxZoom: 10,
     }).setView([loc.latitude, loc.longitude], 5);
+    const bounds = L.latLngBounds([[-90, -180], [90, 180]]);
+    map.setMaxBounds(bounds);
 
-    // USAR OPENSTREETMAPS SE O MAPBOX NÃO FUNCIONAR (200000 tiles mensais grátis)
+    // USAR OPENSTREETMAPS SE O MAPBOX NÃO FUNCIONAR!
 
     // OpenStreetMaps
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      noWrap: true
     }).addTo(map);
 
     // MapBox
-    // L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZGF2aWRmZmEiLCJhIjoiY2xjNWJvazJhMDk2cTNuc2E2bXV3MzU2bCJ9.h8NGtvVfph5bKZlx1u3tWw")
-    //   .addTo(map);
+    // L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZGF2aWRmZmEiLCJhIjoiY2xjNWJvazJhMDk2cTNuc2E2bXV3MzU2bCJ9.h8NGtvVfph5bKZlx1u3tWw", {
+    //  noWrap: true,
+    // }).addTo(map);
     setMarkers();
   }
 
