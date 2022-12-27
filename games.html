@@ -65,9 +65,9 @@
   <!-- Working Area -->
   <div class="container">
     <div class="border-bottom py-2 mb-2">
-      <h2 data-bind="text:displayName"></h2>
+      <h2>Olympic Games editions List</h2>
     </div>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs my-3">
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="#">List</a>
       </li>
@@ -75,77 +75,37 @@
         <a class="nav-link" href="./gamesMap.html">Map</a>
       </li>
     </ul>
-    <!-- ko if:records().length > 0 -->
-    <div class="row small">
-      <p class=" col-4 mr-auto pt-2">
-        <span data-bind="html: 'Page: ' + currentPage() + ' of ' + totalPages()"></span><br />
-        <span data-bind="html: 'Games: '+ fromRecord() + '-' + toRecord() + ' of ' + totalRecords()"></span>
-      </p>
-      <div class="col-8 my-0 pt-3">
-        <ul class="pagination float-end">
-          <!-- ko if: currentPage() > 5 && totalPages() > 10 -->
-          <li class="page-item float-end"><a class="page-link" title="First Page"
-              data-bind="attr: { href: './games.html?page=' + '1' + '&season=' + season(),  rel:'prev'}">⇤</a>
-          </li>
-          <li class="page-item float-end"><a class="page-link" title="Previous Page"
-              data-bind="attr: { href: './games.html?page=' + previousPage() + '&season=' + season(),  rel:'prev'}">←</a>
-          </li>
-          <!-- /ko -->
-          <!-- ko foreach: pageArray()-->
-          <!-- ko if:$data == $parent.currentPage() -->
-          <li class="active page-item"><a class="page-link"
-              data-bind="attr: { title:'Current Page ' + $data + '&season=' + $parent.season()}, text: $data"></a>
-          </li>
-          <!-- /ko -->
-          <!-- ko if:$data != $parent.currentPage() -->
-          <li class="page-item"><a class="page-link"
-              data-bind="attr: { href: './games.html?page=' + $data + '&season=' + $parent.season(), title:'Goto Page ' + $data }, text:$data"></a>
-          </li>
-          <!-- /ko -->
-          <!-- /ko -->
-          <!-- ko if: currentPage() < totalPages() - 4 && totalPages() > 9 -->
-          <li class="page-item"><a class="page-link" title="Next Page"
-              data-bind="attr: { href: './games.html?page=' + nextPage() + '&season=' + season(), rel:'next' }">→</a>
-          </li>
-          <li class="page-item"><a class="page-link" title="Last Page"
-              data-bind="attr: { href: './games.html?page=' + totalPages() + '&season=' + season()}">⇥</a>
-          </li>
-          <!-- /ko -->
-        </ul>
-      </div>
-    </div>
-    <!-- /ko -->
 
-    <table class="table table-striped table-sm small">
-      <thead class="bg-dark text-light">
+    <table class="table table-hover">
+      <thead class="table-secondary">
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Year</th>
-          <th scope="col">City Name</th>
-          <th scope="col">Country Name</th>
-          <th scope="col" class="text-right">
-            <a title="Winter" style="text-decoration: none;"
-              data-bind="attr: { href: './games.html?page=' + currentPage() + '&season=' + season()}">
-              <i id="winter" class="fa fa-snowflake-o" style="color: rgb(125, 227, 233)"></i>
-            </a>
-            <a title="Summer" style="text-decoration: none;"
-              data-bind="attr: { href: './games.html?page=' + currentPage() + '&season=' + season()}">
-              <i id="summer" class="fa fa-sun-o" style="color: yellow"></i>
-            </a>
+          <th scope="col">Location</th>
+          <th scope="col" class="d-flex justify-content-end">
+            <div>
+              <button title="Winter" class="btn btn-outline-primary active" aria-pressed="true" id="winter"
+                data-bind="click: setSeason(0)">
+                <i id="winter" class="fa fa-snowflake-o" style="color: rgb(125, 227, 233)"></i>
+              </button>
+              <button title="Summer" class="btn btn-outline-warning active" aria-pressed="true" id="summer"
+                data-bind="click: setSeason(1)">
+                <i id="summer" class="fa fa-sun-o" style="color: yellow"></i>
+              </button>
+            </div>
           </th>
         </tr>
       </thead>
       <tbody data-bind="foreach: records">
         <tr>
-          <td class="align-middle" data-bind="text:Name"></td>
+          <td class="align-middle">
+            <img style="border-radius: 50%;" data-bind="attr: { src: Logo }" height="40" width="40" />
+            <span class="ms-2 text-primary" data-bind="text:Name"></span>
+          </td>
           <td class="align-middle" data-bind="text:Year"></td>
-          <td class="align-middle" data-bind="text:CityName"></td>
-          <td class="align-middle" data-bind="text:CountryName"></td>
-          <td class="text-end">
-            <a class="btn btn-default btn-light btn-xs" data-bind="attr: { href:'./gameDetails.html?id=' + Id }">
-              <i class="fa fa-eye" title="Selecione para ver detalhes"></i>
-            </a>
-            <button class="btn btn-default btn-xs">
+          <td class="align-middle" data-bind="text:CityName + ', ' + CountryName"></td>
+          <td class="align-middle text-end">
+            <button class="btn btn-default">
               <i class="fa fa-heart-o" data-bind="attr : { 'id': 'favourite_' + Id }"
                 title="Selecione para adicionar aos favoritos"></i>
             </button>
