@@ -1,5 +1,7 @@
 const BASE_URI = "http://192.168.160.58/Olympics/api/statistics";
 
+let loadedData = 0;
+
 function displayChart() {
   const ctx = document.getElementById('chart');
   ctx.width = 500;
@@ -35,8 +37,11 @@ function fetchAthleteStatistics(chart) {
       tension: 0.2
     });
 
-    chart.update();
-    hideLoading();
+
+    if (++loadedData === 4) {
+      chart.update();
+      hideLoading();
+    }
   });
 }
 
@@ -57,8 +62,10 @@ function fetchCompetitionStatistics(chart) {
       tension: 0.2
     });
 
-    chart.update();
-    hideLoading();
+    if (++loadedData === 4) {
+      chart.update();
+      hideLoading();
+    }
   });
 }
 
@@ -79,8 +86,10 @@ function fetchCountriesStatistics(chart) {
       tension: 0.2
     });
 
-    chart.update();
-    hideLoading();
+    if (++loadedData === 4) {
+      chart.update();
+      hideLoading();
+    }
   });
 }
 
@@ -101,8 +110,10 @@ function fetchModalitiesStatistics(chart) {
       tension: 0.2
     });
 
-    chart.update();
-    hideLoading();
+    if (++loadedData === 4) {
+      chart.update();
+      hideLoading();
+    }
   });
 }
 
@@ -128,13 +139,10 @@ function showLoading() {
   });
 }
 function hideLoading() {
-  $('#myModal').on('shown.bs.modal', function (e) {
-    $("#myModal").modal('hide');
-  })
+  $("#myModal").modal('hide');
 }
 
 $(document).ready(() => {
   showLoading();
   displayChart();
-  hideLoading();
 });
