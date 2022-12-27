@@ -6,6 +6,23 @@ var vm = function () {
 
   var self = this;
   self.error = ko.observable('');
+  self.error = ko.observable('');
+  self.CountryName = ko.observable('');
+  self.Name = ko.observable('');
+  self.Year = ko.observable('');
+  self.Season = ko.observable('');
+  self.City = ko.observable('');
+  self.Logo = ko.observable('');
+  self.Photo = ko.observable('');
+  self.Athletes = ko.observableArray([]);
+  self.Modalities = ko.observableArray([]);
+  self.Competitions = ko.observableArray([]);
+  self.Medals = ko.observableArray([]);
+  self.GoldCount = ko.observable(0);
+  self.SilverCount = ko.observable(0);
+  self.BronzeCount = ko.observable(0);
+
+  const baseUri = 'http://192.168.160.58/Olympics/api';
   //--- Data Record
 
 
@@ -16,8 +33,41 @@ var vm = function () {
   };
 
   function loadGameFullDetails(id) {
-    // TODO:
+    showLoading();
+    console.log("CALL: loadGameFullDetails()");
+
+    const composedUri = `${BASE_URI}/games/fulldetails?id=${id}`;
+    ajaxHelper(composedUri, 'GET').done((data) => {
+    for (const medal of data.Medals) {
+    console.log(medal);
+    switch (medal.MedalName) {
+      case "Gold":
+        self.GoldCount(medal.Counter);
+        break;
+      case "Silver":
+        self.SilverCount(medal.Counter);
+        break;
+      case "Bronze":
+        self.BronzeCount(medal.Counter);
+        break;
+    }
   }
+
+  console.log(data);
+
+  self.Name(data.Name);
+  self.CountryName(data.CountryName);
+  self.Year(data.Year);
+  self.Season(data.Season);
+  self.City(data.City);
+  self.Logo(data.Logo);
+  self.Photo(data.Photo);
+  self.Modalities(data.Modalities);
+  self.Competitions(data.Competitions);
+  self.Medals(data.Medals);
+  hideLoading();
+});
+}
 
   //--- Internal functions
   function ajaxHelper(uri, method, data) {
