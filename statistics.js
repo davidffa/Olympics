@@ -4,8 +4,6 @@ let loadedData = 0;
 
 function displayChart() {
   const ctx = document.getElementById('chart');
-  ctx.width = 500;
-  ctx.height = 200;
 
   const chart = new Chart(ctx, {
     type: 'line',
