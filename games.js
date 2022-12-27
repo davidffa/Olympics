@@ -10,31 +10,6 @@ var vm = function () {
   self.allRecords = ko.observableArray([]);
   // 0 - Winter 1 - Summer 2 - All
   self.season = ko.observable(2);
-  self.setSeason = function (season) {
-    if (season === 0) {
-      // Winter
-      if (self.season() === 0) {
-        self.records(self.allRecords());
-        self.season(2);
-      } else {
-        self.records(self.allRecords().filter(r => r.Name.includes('Winter')));
-        self.season(0);
-        $("#summer").removeClass("active");
-      }
-      $("#winter").toggleClass("active");
-    } else if (season === 1) {
-      // Summer
-      if (self.season() === 1) {
-        self.records(self.allRecords());
-        self.season(2);
-      } else {
-        self.records(self.allRecords().filter(r => r.Name.includes('Summer')));
-        self.season(1);
-        $("#winter").removeClass("active");
-      }
-      $("#summer").toggleClass("active");
-    }
-  }
 
   //--- Page Events
   self.activate = function () {
@@ -46,6 +21,30 @@ var vm = function () {
       self.allRecords(data.Records);
       self.records(data.Records);
       hideLoading();
+    });
+
+    $("#winter").click(() => {
+      if (self.season() === 0) {
+        self.records(self.allRecords());
+        self.season(2);
+      } else {
+        self.records(self.allRecords().filter(r => r.Name.includes('Winter')));
+        self.season(0);
+        $("#summer").removeClass("active");
+      }
+      $("#winter").toggleClass("active");
+    });
+
+    $("#summer").click(() => {
+      if (self.season() === 1) {
+        self.records(self.allRecords());
+        self.season(2);
+      } else {
+        self.records(self.allRecords().filter(r => r.Name.includes('Summer')));
+        self.season(1);
+        $("#winter").removeClass("active");
+      }
+      $("#summer").toggleClass("active");
     });
   }
 
