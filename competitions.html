@@ -66,6 +66,87 @@
     <div class="py-2 border-bottom mb-3">
       <h2 class="fw-bold">Olympic Competitions</h2>
     </div>
+    <!-- ko if:records().length > 0 -->
+    <div class="row small">
+      <p class=" col-4 mr-auto pt-2">
+        <span data-bind="html: 'Page: ' + currentPage() + ' of ' + totalPages()"></span><br />
+        <span data-bind="html: 'Competitions: '+ fromRecord() + '-' + toRecord() + ' of ' + totalRecords()"></span>
+      </p>
+      <div class="col-8 my-0 pt-3">
+        <ul class="pagination float-end">
+          <!-- ko if: currentPage() > 3 && totalPages() > 5 -->
+          <li class="page-item float-end"><a class="page-link" title="First Page"
+              data-bind="attr: { href: './competitions.html?page=' + '1' ,  rel:'prev'}"><i
+                class="fa fa-fast-backward"></i></a></li>
+          <li class="page-item float-end"><a class="page-link" title="Previous Page"
+              data-bind="attr: { href: './competitions.html?page=' + previousPage(),  rel:'prev'}"><i
+                class="fa fa-backward"></i></a></li>
+          <!-- /ko -->
+          <!-- ko foreach: pageArray()-->
+          <!-- ko if:$data == $parent.currentPage() -->
+          <li class="active page-item"><a class="page-link"
+              data-bind="attr: { title:'Current Page ' + $data }, text: $data"></a></li>
+          <!-- /ko -->
+          <!-- ko if:$data != $parent.currentPage() -->
+          <li class="page-item"><a class="page-link"
+              data-bind="attr: { href: './competitions.html?page=' + $data, title:'Goto Page ' + $data }, text:$data"></a>
+          </li>
+          <!-- /ko -->
+          <!-- /ko -->
+          <!-- ko if: currentPage() < totalPages() - 2 && totalPages() > 5 -->
+          <li class="page-item"><a class="page-link" title="Next Page"
+              data-bind="attr: { href: './competitions.html?page=' + nextPage(), rel:'next' }"><i
+                class="fa fa-forward"></i></a></li>
+          <li class="page-item"><a class="page-link" title="Last Page"
+              data-bind="attr: { href: './competitions.html?page=' + totalPages()}"><i
+                class="fa fa-fast-forward"></i></a>
+          </li>
+          <!-- /ko -->
+        </ul>
+      </div>
+    </div>
+    <!-- /ko -->
+
+    <table class="table table-hover">
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col">NAME</th>
+          <th scope="col">MODALITY</th>
+          <td scope="col">RESULTS</td>
+          <th scope="col">
+            <div class="d-flex">
+              <div class="form-outline">
+                <input type="search" id="searchBar" placeholder="Search competition"
+                  class="form-control form-control-sm" />
+              </div>
+              <button type="button" id="searchBtn" class="btn btn-sm">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <!-- ko if:records().length > 0 -->
+      <tbody data-bind="foreach: records">
+        <tr>
+          <td class="align-middle" data-bind="click: $parent.selectCompetition" role="button">
+            <img style="border-radius: 50%;" data-bind="attr: { src: Photo }" height="40" width="40" />
+            <span class="ms-2 text-primary" data-bind="text:Name"></span>
+          </td>
+          <td class="align-middle" data-bind="text:Modality"></td>
+          <td class="align-middle" data-bind="text:Results"></td>
+          <td class="text-end">
+          </td>
+        </tr>
+      </tbody>
+      <!-- /ko -->
+    </table>
+    <!-- ko if:records().length == 0 && !loading() -->
+    <div class="alert alert-warning" role="alert">
+      <h4 class="alert-heading">No competitions found!</h4>
+      <p>Try searching for a different competition.</p>
+    </div>
+    <!-- /ko -->
   </div>
 
   <!-- Loading Modal -->
