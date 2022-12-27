@@ -2,136 +2,292 @@
 <html lang="pt">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css" />
 
-    <title>ITW - Olympics</title>
+  <link rel="shortcut icon" href="./assets/Olympic_Rings.svg" type="image/x-icon">
+
+  <title>ITW - Olympics</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html" tabindex="Olympics">
-                <img src="./assets/Olympic_Rings.svg" height="36" />
+  <nav class="navbar navbar-expand-lg bg-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html" tabindex="Olympics">
+        <img src="./assets/Olympic_Rings.svg" height="36" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="athletes.html">
+              <i class="fa fa-user-o text-warning"></i> Athletes
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="athletes.html">
-                            <i class="fa fa-user-o text-warning"></i> Athletes
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="competitions.html">
-                            <i class="fa fa-trophy"></i> Competitions
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="countries.html">
-                            <i class=" fa fa-flag-o text-danger"></i> Countries
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="games.html">
-                            <i class="fa fa-map-marker text-success"></i> Games
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="modalities.html">
-                            <i class="fa fa-soccer-ball-o text-primary"></i> Modalities
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Working Area -->
-    <div id="mainCarousel" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" aria-label="Slide 1"
-                class="active" aria-current="true"></button>
-            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="3" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="display-1">Beijing 2008</div>
-                    <p>The 2008 Summer Olympics, officially the Games of the XXIX Olympiad and
-                        also known as Beijing
-                        2008, were an international multisport event held from 8 to 24 August 2008, in Beijing, China.
-                    </p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="display-1">Vancouver 2010</div>
-                    <p>The 2010 Winter Olympics, officially known as the XXI Olympic Winter Games and also known as
-                        Vancouver 2010, were an international winter multi-sport event held from February 12 to 28, 2010
-                        in Vancouver, British Columbia, Canada, with some events held in the surrounding suburbs of
-                        Richmond, West Vancouver and the University of British Columbia, and in the nearby resort town
-                        of Whistler.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="display-1">Rio de Janeiro 2016</div>
-                    <p>The 2016 Summer Olympics, officially the Games of the XXXI Olympiad and also known as Rio 2016,
-                        was an international multi-sport event held from 5 to 21 August 2016 in Rio de Janeiro, Brazil.
-                    </p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="display-1">Tokio 2020</div>
-                    <p>The 2020 Summer Olympics, officially the Games of the XXXII Olympiad and also known as Tokyo
-                        2020, was an international multi-sport event held from 23 July to 8 August 2021 in Tokyo, Japan.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="competitions.html">
+              <i class="fa fa-trophy"></i> Competitions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="countries.html">
+              <i class=" fa fa-flag-o text-danger"></i> Countries
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="games.html">
+              <i class="fa fa-map-marker text-success"></i> Games
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="modalities.html">
+              <i class="fa fa-soccer-ball-o text-primary"></i> Modalities
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="statistics.html">
+              <i class="fa fa-bar-chart text-danger"></i> Statistics
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <!-- End of Working Area -->
-    <nav class="navbar navbar-light bg-light fixed-bottom">
-        <div class="container small">
-            <div class="navbar-text">&copy; Introdução as Tecnologias Web - 2022/23</div>
-            <div class="navbar-nav">
-                <div class="nav-item text-end"><a href="https://www.ua.pt" class="nav-link">Universidade de Aveiro</a>
-                </div>
-            </div>
+  <!-- Working Area -->
+  <div id="mainCarousel" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" aria-label="Slide 1" class="active"
+        aria-current="true"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="carousel-caption d-none d-md-block bg-black rounded-5 bg-opacity-25">
+          <div class="display-1">Athens 2004</div>
+          <p>The 2004 Summer Olympics, officially known as the Games of the XXVIII
+            Olympiad, were an
+            international multi-sport event held in Athens, Greece, from 13 to 29 August 2004. The games
+            were the first to be held in the 21st century, and the first to be held in Greece since the
+            1896 Summer Olympics in Athens. Athens 2004 was the first Olympics to be held in a city that
+            had previously hosted the event, and the first to be held in a city that had not hosted the
+            event since the 1904 Summer Olympics in St. Louis, Missouri, United States.
+          </p>
         </div>
-    </nav>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-caption d-none d-md-block bg-black rounded-5 bg-opacity-25">
+          <div class="display-1">Beijing 2008</div>
+          <p>The 2008 Summer Olympics, officially the Games of the XXIX Olympiad and
+            also known as Beijing
+            2008, were an international multisport event held from 8 to 24 August 2008, in Beijing, China.
+          </p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-caption d-none d-md-block bg-black rounded-5 bg-opacity-25">
+          <div class="display-1">Vancouver 2010</div>
+          <p>The 2010 Winter Olympics, officially known as the XXI Olympic Winter Games and also known as
+            Vancouver 2010, were an international winter multi-sport event held from February 12 to 28, 2010
+            in Vancouver, British Columbia, Canada, with some events held in the surrounding suburbs of
+            Richmond, West Vancouver and the University of British Columbia, and in the nearby resort town
+            of Whistler.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-caption d-none d-md-block bg-black rounded-5 bg-opacity-25">
+          <div class="display-1">London 2012</div>
+          <p>The 2012 Summer Olympics, officially known as the Games of the XXX Olympiad and commonly known as
+            London 2012, was an international multi-sport event that was held from 27 July to 12 August 2012
+            in London, United Kingdom. </p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-caption d-none d-md-block bg-black rounded-5 bg-opacity-25">
+          <div class="display-1">Rio de Janeiro 2016</div>
+          <p>The 2016 Summer Olympics, officially the Games of the XXXI Olympiad and also known as Rio
+            2016,
+            was an international multi-sport event held from 5 to 21 August 2016 in Rio de Janeiro,
+            Brazil.
+          </p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-caption d-none d-md-block bg-black rounded-5 bg-opacity-25">
+          <div class="display-1">Tokyo 2020</div>
+          <p>The 2020 Summer Olympics, officially the Games of the XXXII Olympiad and also known as
+            Tokyo
+            2020, was an international multi-sport event held from 23 July to 8 August 2021 in
+            Tokyo, Japan.
+          </p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div class="container">
+    <h2>Olympic Games History</h2>
+    <hr>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"></script>
-    <script src="script.js"></script>
+    <p>The Olympic Games, which originated in ancient Greece as many as 3,000 years ago, were revived in the late
+      19th century and have become the world's preeminent sporting competition. From the 8th century B.C. to the
+      4th century A.D., the Games were held every four years in Olympia, located in the western Peloponnese
+      peninsula, in honor of the god Zeus. The first modern Olympics took place in 1896 in Athens, and featured
+      280 participants from 12 nations, competing in 43 events. Since 1994, the Summer and Winter Olympic Games
+      have been held separately and have alternated every two years. The 2022 Winter Olympics will be held from
+      February 4 to February 20, 2022 in Beijing, China and feature figure skating, ice hockey, curling and more.
+    </p>
+    <img src="https://sunflowerbooks.co.uk/wp-content/uploads/2013/01/peloponnese-map.jpg"
+      style="height: 400px; width: 370px;">
+    <h3>Olympic games added per date</h3>
+    <p>The Olympic games of 1896 showcased <u> athletics, cycling, fencing, gymnastics, shooting, swimming, tennis,
+        weight lifting, and wrestling</u>, according to the International Olympic Committee (IOC).</p>
+    <img src="https://i.insider.com/60f9a22f0729770012b95241?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 1900, <u> football, rugby, golf, and rowing</u> were added to the lineup along with <u>
+        archery water polo, and sailing</u>, according to the IOC. This was also the first year that women could
+      compete in the games, the IOC's website says. </p>
+    <img src="https://i.insider.com/60f9a5ab0729770012b95360?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">Four years later, in 1904, the IOC added <u> boxing and diving</u> to the roster while golf was
+      cut. </p>
+    <img src="https://i.insider.com/60f9a8370729770012b95462?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"><u>Field hockey, figure skating, and motorboating</u> were added in 1908, the IOC website says.
+    </p>
+    <img src="https://i.insider.com/60f9a8b2fc253600181fdd2c?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">While women could compete in 1900, they couldn't swim in the games until 1912, when the modern
+      pentathlon and short racewalking were also introduced, according to the IOC. Equestrian events also had
+      their official debut, according to the same source. </p>
+    <img src="https://i.insider.com/60f9a9710729770012b954f5?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">The first Winter Olympics took place in 1924, and the IOC added various <u> skiing competitions,
+        ice hockey, curling, and bobsleigh</u> to the games. Rugby was cut after this year, according to the
+      IOC. </p>
+    <img src="https://i.insider.com/60f9a9f00729770012b95528?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">By 1928, <u> skeleton and women's gymnastics</u> were a part of the Olympics, according to the
+      IOC. Skeleton was dropped after this year, picked back up in 1948, and then dropped again immediately after,
+      according to the same source. </p>
+    <img src="https://i.insider.com/60f9aae80729770012b95583?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 1932, <u> long-distance walking</u> became an Olympic sport with the first racewalk
+      competition over 30 miles long, according to the IOC. </p>
+    <img src="https://i.insider.com/60f9ab5afc253600181fde37?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 1936, <u> basketball, field handball, women's football, canoeing</u> became a part of the
+      competition, as well as <u> Alpine skiing</u>, according to the IOC. </p>
+    <img src="https://i.insider.com/60f9ac1bfc253600181fde73?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 1960, the IOC added <u> biathlon and women's speed skating</u> to the games.
+    </p>
+    <img src="https://i.insider.com/6101632e0d35a9001825955b?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 1964, the IOC brought <u> volleyball, luge, and men's judo</u> to the world-renowned event.
+    </p>
+    <img src="https://i.insider.com/60f9ad990729770012b95680?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 1972, the IOC debuted men's <u> indoor handball</u>.
+    </p>
+    <img src="https://i.insider.com/60f9ae440729770012b956d5?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"><u>Women's basketball, handball, and rowing</u> were added in 1976, according to the IOC.
+    </p>
+    <img src="https://i.insider.com/60f9af6ffc253600181fdfda?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 1984, the games added <u> women's cycling road, shooting, artistic swimming, and rhythmic
+        gymnastics,</u> according to the IOC. </p>
+    <img src="https://i.insider.com/60f9be7e0729770012b95eb6?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"> <u>Table tennis</u> became an Olympic sport in 1988 while tennis came back after a 64-year
+      hiatus, the IOC's website says. <u> Women's cycling track</u> also made its debut, according to the IOC.
+    </p>
+    <img src="https://i.insider.com/60f9bf8efc253600181fe73b?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"><u>Baseball, badminton, roller speed skating, short track speed skating, and women's judo</u>
+      became Olympic sports in 1992, according to the IOC. </p>
+    <img src="https://i.insider.com/60f9c0b1fc253600181fe7b4?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">The IOC added <u> mountain biking</u> to the games in 1996. </p>
+    <img src="https://i.insider.com/60f9c1b1fc253600181fe843?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"><u>Snowboarding and women's ice hockey</u> debuted in 1998, according to the IOC. </p>
+    <img src="https://i.insider.com/61016acff350d50019596071?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"><u>Taekwondo</u> made its Olympic debut in 2000 along with the <u> trampoline gymnastics,
+        triathlon, women's pentathlon, water polo, race walking, and weightlifting,</u> according to the IOC.
+    </p>
+    <img src="https://i.insider.com/60f9c2660729770012b96041?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 2002, the IOC brought back <u> skeleton</u> for the first time in 50 years. </p>
+    <img src="https://i.insider.com/610172850d35a90018259bd8?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"><u>Women's wrestling</u> became an Olympic sport in 2004, according to the IOC. </p>
+    <img src="https://i.insider.com/60f9c2effc253600181fe8f0?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5"> <u>BMX racing and the 10-kilometer swimming marathon</u> were added to the games in 2008,
+      according to the IOC. </p>
+    <img src="https://i.insider.com/60f9c3890729770012b960da?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">The IOC added <u> freestyle skiing, women's boxing, and mixed tennis doubles</u> to the 2012
+      Olympic Games. </p>
+    <img src="https://i.insider.com/60f9c40dfc253600181fe974?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 2016, <u> men's rugby and golf</u> came back to the Olympics for the first time in about a
+      century while women competed in rugby and sailing for the first time ever. </p>
+    <img src="https://i.insider.com/60f9c54a0729770012b96174?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+    <p class="mt-5">In 2020,<u> karate, skateboarding, sport climbing, BMX freestyle, and surfing</u> were added to
+      the Olympic games, according to the IOC. The event was rescheduled for summer 2021.
+    </p>
+    <img src="https://i.insider.com/60f9c632fc253600181fea35?width=700&format=jpeg&auto=webp"
+      style="height: 400px; width: 400px;">
+
+
+
+  </div>
+
+  <!-- End of Working Area -->
+  <nav class="navbar navbar-light bg-light fixed-bottom">
+    <div class="container small">
+      <div class="navbar-text">&copy; Introdução as Tecnologias Web - 2022/23</div>
+      <div class="navbar-nav">
+        <div class="nav-item text-end"><a href="https://www.ua.pt" class="nav-link">Universidade de
+            Aveiro</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>
