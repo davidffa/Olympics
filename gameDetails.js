@@ -1,100 +1,224 @@
 // ViewModel KnockOut
 var vm = function () {
-    console.log('ViewModel initiated...');
-    //---Variáveis locais
-    var self = this;
-    self.baseUri = ko.observable('http://192.168.160.58/Olympics/api/Games/');
-    self.displayName = 'Olympic Games edition Details';
-    self.error = ko.observable('');
-    self.passingMessage = ko.observable('');
-    //--- Data Record
-    self.Id = ko.observable('');
-    self.CountryName = ko.observable('');
-    self.Logo = ko.observable('');
-    self.Name = ko.observable('');
-    self.Photo = ko.observable('');
-    self.Season = ko.observable('');
-    self.Year = ko.observableArray('');
-    self.Url = ko.observable('');
+  console.log('ViewModel initiated...');
+  //---Variáveis locais
+  const BASE_URI = 'http://192.168.160.58/Olympics/api';
 
-    //--- Page Events
-    self.activate = function (id) {
-        console.log('CALL: getGame...');
-        var composedUri = self.baseUri() + id;
-        ajaxHelper(composedUri, 'GET').done(function (data) {
-            console.log(data);
-            hideLoading();
-            self.Id(data.Id);
-            self.CountryName(data.CountryName);
-            self.Logo(data.Logo);
-            self.Name(data.Name);
-            self.Photo(data.Photo);
-            self.Season(data.Season);
-            self.Year(data.Year);
-        });
-    };
+  var self = this;
+  self.error = ko.observable('');
 
-    //--- Internal functions
-    function ajaxHelper(uri, method, data) {
-        self.error(''); // Clear error message
-        return $.ajax({
-            type: method,
-            url: uri,
-            dataType: 'json',
-            contentType: 'application/json',
-            data: data ? JSON.stringify(data) : null,
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log("AJAX Call[" + uri + "] Fail...");
-                hideLoading();
-                self.error(errorThrown);
-            }
-        });
+  //--- Data Record
+  self.CountryName = ko.observable('');
+  self.Name = ko.observable('');
+  self.Year = ko.observable('');
+  self.Season = ko.observable('');
+  self.City = ko.observable('');
+  self.Logo = ko.observable('');
+  self.Photo = ko.observable('');
+  self.Athletes = ko.observableArray([]);
+  self.AllAthletes = ko.observableArray([]);
+  self.searchTerm = ko.observable("");
+  self.SearchedAthletes = ko.computed(() => {
+    if (self.searchTerm() === "") {
+      return self.AllAthletes();
+    } else {
+      return self.AllAthletes().filter((athlete) => athlete.Name.toLowerCase().startsWith(self.searchTerm()));
     }
+  }, self);
+  self.Modalities = ko.observableArray([]);
+  self.Competitions = ko.observableArray([]);
+  self.GoldCount = ko.observable(0);
+  self.SilverCount = ko.observable(0);
+  self.BronzeCount = ko.observable(0);
 
-    function showLoading() {
-        $('#myModal').modal('show', {
-            backdrop: 'static',
-            keyboard: false
-        });
-    }
-    function hideLoading() {
-        $('#myModal').on('shown.bs.modal', function (e) {
-            $("#myModal").modal('hide');
-        })
-    }
+  //--- Pagination
+  self.currentPage = ko.observable(1);
+  self.pagesize = ko.observable(20);
+  self.totalRecords = ko.computed(() => {
+    return self.SearchedAthletes().length;
+  }, self);
+  self.totalPages = ko.computed(() => {
+    return Math.ceil(self.totalRecords() / self.pagesize());
+  }, self);
+  self.previousPage = ko.computed(() => {
+    return self.currentPage() * 1 - 1;
+  }, self);
+  self.nextPage = ko.computed(() => {
+    return self.currentPage() * 1 + 1;
+  }, self);
+  self.fromRecord = ko.computed(() => {
+    return self.previousPage() * self.pagesize() + 1;
+  }, self);
+  self.toRecord = ko.computed(() => {
+    return Math.min(self.currentPage() * self.pagesize(), self.totalRecords());
+  }, self);
+  self.pageArray = function () {
+    var list = [];
+    var size = Math.min(self.totalPages(), 5);
+    var step;
+    if (size < 5 || self.currentPage() === 1)
+      step = 0;
+    else if (self.currentPage() >= self.totalPages() - 2)
+      step = self.totalPages() - 5;
+    else
+      step = Math.max(self.currentPage() - 3, 0);
 
-    function getUrlParameter(sParam) {
-        var sPageURL = window.location.search.substring(1),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
+    for (var i = 1; i <= size; i++)
+      list.push(i + step);
+    return list;
+  };
 
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
+  function updateItems() {
+    self.Athletes(self.SearchedAthletes().slice((self.currentPage() - 1) * self.pagesize(), self.currentPage() * self.pagesize()));
+  }
 
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-            }
-        }
-    };
+  self.moveNextPage = () => {
+    self.currentPage(self.nextPage());
+    updateItems();
+  };
+  self.movePrevPage = () => {
+    self.currentPage(self.previousPage());
+    updateItems();
+  };
+  self.moveFirstPage = () => {
+    self.currentPage(1);
+    updateItems();
+  };
+  self.moveLastPage = () => {
+    self.currentPage(self.totalPages());
+    updateItems();
+  };
+  self.moveToPage = (page) => {
+    self.currentPage(page);
+    updateItems();
+  };
 
-    //--- start ....
+  //--- Page Events
+  self.activate = function (id) {
+    console.log('CALL: getGameFullDetails...');
+    loadGameFullDetails(id);
+
+    $("#searchBar").on("input", () => {
+      self.currentPage(1);
+      self.searchTerm($("#searchBar").val().toLowerCase());
+
+      updateItems();
+    });
+  };
+
+  function loadGameFullDetails(id) {
     showLoading();
-    var pg = getUrlParameter('id');
-    console.log(pg);
-    if (pg == undefined)
-        self.activate(1);
-    else {
-        self.activate(pg);
+    console.log("CALL: loadGameFullDetails()");
+
+    const composedUri = `${BASE_URI}/games/fulldetails?id=${id}`;
+    ajaxHelper(composedUri, 'GET').done((data) => {
+      for (const medal of data.Medals) {
+        switch (medal.MedalName) {
+          case "Gold":
+            self.GoldCount(medal.Counter);
+            break;
+          case "Silver":
+            self.SilverCount(medal.Counter);
+            break;
+          case "Bronze":
+            self.BronzeCount(medal.Counter);
+            break;
+        }
+      }
+
+      console.log(data);
+
+      applyPhotos(data.Athletes);
+
+      self.Name(data.Name);
+      self.CountryName(data.CountryName);
+      self.Year(data.Year);
+      self.Season(data.Season);
+      self.City(data.City);
+      self.Logo(data.Logo);
+      self.Photo(data.Photo);
+      self.Athletes(data.Athletes.slice(0, self.pagesize()));
+      self.AllAthletes(data.Athletes);
+      self.Modalities(data.Modalities);
+      self.Competitions(data.Competitions);
+
+      hideLoading();
+    });
+  }
+
+  function applyPhotos(records) {
+    for (const record of records) {
+      if (record.Photo === null) {
+        if (record.Sex === "M") {
+          record.Photo = "./assets/male.svg";
+        } else {
+          record.Photo = "./assets/female.svg"
+        }
+      }
     }
-    console.log("VM initialized!");
+  }
+
+  //--- Internal functions
+  function ajaxHelper(uri, method, data) {
+    self.error(''); // Clear error message
+    return $.ajax({
+      type: method,
+      url: uri,
+      dataType: 'json',
+      contentType: 'application/json',
+      data: data ? JSON.stringify(data) : null,
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("AJAX Call[" + uri + "] Fail...");
+        hideLoading();
+        self.error(errorThrown);
+      }
+    });
+  }
+
+  function showLoading() {
+    $('#myModal').modal('show', {
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
+  function hideLoading() {
+    $('#myModal').on('shown.bs.modal', function (e) {
+      $("#myModal").modal('hide');
+    })
+  }
+
+  function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+      }
+    }
+  };
+
+  //--- start ....
+  showLoading();
+  var pg = getUrlParameter('id');
+  console.log(pg);
+  if (pg == undefined)
+    window.location.href = "./games.html";
+  else {
+    self.activate(pg);
+  }
+  console.log("VM initialized!");
 };
 
 $(document).ready(function () {
-    console.log("document.ready!");
-    ko.applyBindings(new vm());
+  console.log("document.ready!");
+  ko.applyBindings(new vm());
 });
 
 $(document).ajaxComplete(function (event, xhr, options) {
-    $("#myModal").modal('hide');
+  $("#myModal").modal('hide');
 })
