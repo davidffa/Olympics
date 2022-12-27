@@ -98,6 +98,8 @@ var vm = function () {
       maxZoom: 10,
     }).setView([loc.latitude, loc.longitude], 5);
 
+    // USAR OPENSTREETMAPS SE O MAPBOX NÃO FUNCIONAR (200000 tiles mensais grátis)
+
     // OpenStreetMaps
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
