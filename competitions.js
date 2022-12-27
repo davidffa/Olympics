@@ -46,11 +46,51 @@ var vm = function () {
 
   // Page events
   self.activate = function (id) {
-    console.log('CALL: getCompetitions...');
-    var composedUri = `${baseUri}/competitions?page=${id}&pagesize=${self.pagesize()}`;
+    loadCompetitions(id);
+  }
+
+  $("#searchBar").on("input", () => {
+    const value = $("#searchBar").val();
+
+    if (value.length >= 3) {
+      searchModalities(value);
+    } else if (value.length === 0) {
+      let id = getUrlParameter('page');
+      if (id === undefined)
+        id = 1;
+      loadCompetitions(id);
+    }
+  });
+
+  // When search button is clicked
+  $("#searchBtn").click(() => {
+    searchModalities($("#searchBar").val());
+  });
+
+  function searchModalities(val) {
+    console.log('CALL: searchModalities...');
+    const composedUri = `${baseUri}/competitions/searchbyname?q=${val}`;
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
+      self.records(data);
+      self.currentPage(1);
+      self.hasNext(false);
+      self.hasPrevious(false);
+      self.pagesize(data.length)
+      self.totalPages(1);
+      self.totalRecords(data.length);
       hideLoading();
+    });
+  }
+
+  function loadCompetitions(id) {
+    showLoading();
+    self.pagesize = ko.observable(20);
+    console.log('CALL: getCompetitions...');
+    const composedUri = `${baseUri}/competitions?page=${id}&pagesize=${self.pagesize()}`;
+    ajaxHelper(composedUri, 'GET').done(function (data) {
+      console.log(data);
+
       self.records(data.Records);
       self.currentPage(data.CurrentPage);
       self.hasNext(data.HasNext);
@@ -58,6 +98,8 @@ var vm = function () {
       self.pagesize(data.PageSize)
       self.totalPages(data.TotalPages);
       self.totalRecords(data.TotalRecords);
+
+      hideLoading();
     });
   }
 
@@ -109,7 +151,7 @@ var vm = function () {
 
   //--- start ....
   showLoading();
-  var id = getUrlParameter('page');
+  let id = getUrlParameter('page');
   if (id === undefined)
     id = 1;
   self.activate(id);
