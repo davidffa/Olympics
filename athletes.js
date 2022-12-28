@@ -89,7 +89,7 @@ var vm = function () {
     });
   }
 
-  // Uma array de ids de atletas favoritos
+  // Uma array de objetos de atletas favoritos
   self.favourites = ko.observableArray([]);
   self.toggleFavourite = (athlete) => {
     if (self.favourites().find(it => it.Id === athlete.Id)) {
