@@ -28,8 +28,11 @@ var vm = function () {
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(id);
       console.log(data);
-      const medals = data.find(it => it.CountryId == id).Medals;
-      console.log(medals);
+      const country = data.find(it => it.CountryId == id);
+
+      if (!country) return;
+
+      const medals = country.Medals;
 
       self.GoldCount(medals[0].Counter);
       self.SilverCount(medals[1].Counter);

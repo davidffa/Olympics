@@ -29,7 +29,7 @@ function fetchAthleteStatistics(chart) {
 
     chart.data.labels = labels;
     chart.data.datasets.push({
-      label: 'Number of athletes per olympic games edition',
+      label: '#Athletes per olympic games edition',
       data,
       borderColor: "#ffc107",
       tension: 0.2
@@ -54,7 +54,7 @@ function fetchCompetitionStatistics(chart) {
 
     chart.data.labels = labels;
     chart.data.datasets.push({
-      label: 'Number of competitions per olympic games edition',
+      label: '#Competitions per olympic games edition',
       data,
       borderColor: "#707071",
       tension: 0.2
@@ -78,7 +78,7 @@ function fetchCountriesStatistics(chart) {
 
     chart.data.labels = labels;
     chart.data.datasets.push({
-      label: 'Number of countries per olympic games edition',
+      label: '#Countries per olympic games edition',
       data,
       borderColor: "#dc3545",
       tension: 0.2
@@ -102,7 +102,7 @@ function fetchModalitiesStatistics(chart) {
 
     chart.data.labels = labels;
     chart.data.datasets.push({
-      label: 'Number of modalities per olympic games edition',
+      label: '#Modalities per olympic games edition',
       data,
       borderColor: "#0d6efd",
       tension: 0.2
