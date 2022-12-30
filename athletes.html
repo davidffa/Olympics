@@ -71,7 +71,7 @@
     <div class="border-bottom py-2 mb-2">
       <h2 data-bind="text:displayName"></h2>
     </div>
-    <!-- ko if:records().length > 0 -->
+    <!-- ko if:records().length > 0 && !$("#favs").is(":checked")-->
     <div class="row small">
       <p class=" col-4 mr-auto pt-2">
         <span data-bind="html: 'Page: ' + currentPage() + ' of ' + totalPages()"></span><br />
