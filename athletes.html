@@ -71,7 +71,7 @@
     <div class="border-bottom py-2 mb-2">
       <h2 data-bind="text:displayName"></h2>
     </div>
-    <!-- ko if:records().length > 0 -->
+    <!-- ko if:records().length > 0 && !$("#favs").is(":checked")-->
     <div class="row small">
       <p class=" col-4 mr-auto pt-2">
         <span data-bind="html: 'Page: ' + currentPage() + ' of ' + totalPages()"></span><br />
@@ -118,21 +118,26 @@
           <th scope="col">NAME</th>
           <th scope="col">GENDER</th>
           <th scope="col">
-            <div class="input-group d-flex justify-content-around">
-              <div>
+            <div class="input-group d-flex justify-content-between align-items-end">
+              <div class="ms-5">
                 <select class="form-select form-select-sm" data-bind="options: countries" id="countriesSelect">
                   <option value="All Countries"></option>
                 </select>
               </div>
 
-              <div class="d-flex">
-                <div class="form-outline">
+              <div class="d-flex flex-column">
+                <div class="d-flex mb-2">
+                  <input type="checkbox" name="Only favourites" id="favs">
+                  <label class="ms-2" for="favs">Only favourites</label>
+                </div>
+
+                <div class="d-flex">
                   <input type="search" id="searchBar" placeholder="Search athlete"
                     class="form-control form-control-sm" />
+                  <button type="button" id="searchBtn" class="btn btn-sm">
+                    <i class="fa fa-search"></i>
+                  </button>
                 </div>
-                <button type="button" id="searchBtn" class="btn btn-sm">
-                  <i class="fa fa-search"></i>
-                </button>
               </div>
             </div>
           </th>
@@ -146,7 +151,11 @@
             <span class="ms-2 text-primary" data-bind="text:Name"></span>
           </td>
           <td class="align-middle" data-bind="text:Sex"></td>
-          <td class="text-end">
+          <td class="align-middle text-end">
+            <button class="btn btn-default" data-bind="click: $parent.toggleFavourite">
+              <i class="fa"
+                data-bind="style: { color: $parent.favourites().find(it => it.Id === $data.Id) ? 'red' : 'black' }, attr: { title: $parent.favourites().find(it => it.Id === $data.Id) ? 'Remove from favourites' : 'Add to favourites' }, css: { 'fa-heart': $parent.favourites().find(it => it.Id === $data.Id), 'fa-heart-o': !$parent.favourites().find(it => it.Id === $data.Id) }"></i>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -195,7 +204,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"><i class="fa fa-heart me-2"></i>Add to favourites</button>
+          <button type="button"
+            data-bind="click: $parent.toggleFavourite, text: $parent.favourites().find(it => it.Id === $data.Id) ? 'Remove from favourites' : 'Add to favourites'"
+            class="btn btn-secondary"><i class="fa fa-heart me-2"></i></button>
           <a data-bind="attr: { href: './athleteDetails.html?id=' + Id }">
             <button type="button" class="btn btn-primary">More details</button>
           </a>

@@ -89,12 +89,37 @@ var vm = function () {
     });
   }
 
+  // Uma array de objetos de atletas favoritos
+  self.favourites = ko.observableArray([]);
+  self.toggleFavourite = (athlete) => {
+    if (self.favourites().find(it => it.Id === athlete.Id)) {
+      self.favourites.splice(self.favourites().findIndex(it => it.Id === athlete.Id), 1)
+    } else {
+      self.favourites.push(athlete);
+    }
+
+    localStorage.setItem("fav_athletes", JSON.stringify(self.favourites()));
+  }
+
+  /**
+   * Carrega os atletas favoritos do local storage
+   */
+  function loadFavourites() {
+    const favs = JSON.parse(localStorage.getItem("fav_athletes"));
+    if (favs) {
+      self.favourites(favs);
+    }
+  }
+
   let countries;
 
   //--- Page Events
   self.activate = function (id, countryName) {
+    loadFavourites();
     self.currentPage(id);
-    self.selectedCountry(countryName);
+
+    if (countryName)
+      self.selectedCountry(countryName);
 
     // Load countries
     const url = `${self.baseUri()}/countries?page=1&pagesize=300`;
@@ -157,7 +182,22 @@ var vm = function () {
 
     // When search button is clicked
     $("#searchBtn").click(() => {
+      if ($("#searchBar").val().length === 0) return;
       searchAthletes($("#searchBar").val());
+    });
+
+    $("#favs").change(() => {
+      if ($("#favs").is(":checked")) {
+        $("#countriesSelect").addClass("d-none");
+        self.records(self.favourites());
+      } else {
+        if (self.selectedCountry() && self.selectedCountry() !== 'All Countries') {
+          loadAthletesByCountry(1);
+        } else {
+          loadAthletes(1, self.selectedCountry());
+        }
+        $("#countriesSelect").removeClass("d-none");
+      }
     });
   };
 
@@ -179,7 +219,6 @@ var vm = function () {
       self.totalPages(data.TotalPages);
       self.totalRecords(data.TotalRecords);
       self.loading(false);
-      //self.SetFavourites();
     });
   }
 
