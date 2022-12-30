@@ -1,51 +1,6 @@
 var map;
 var loc;
 
-const COORDINATES = {
-  "Athina": [37.983810, 23.727539],
-  "Paris": [48.856614, 2.352222],
-  "St. Louis": [38.627003, -90.199404],
-  "London": [51.507351, -0.127758],
-  "Stockholm": [59.329323, 18.068581],
-  "Antwerpen": [51.219447, 4.402464],
-  "Chamonix": [45.923611, 6.869444],
-  "Amsterdam": [52.370216, 4.895168],
-  "Sankt Moritz": [46.499167, 9.829167],
-  "Los Angeles": [34.052234, -118.243685],
-  "Lake Placid": [44.279167, -73.979167],
-  "Berlin": [52.520007, 13.404954],
-  "Garmisch-Partenkirchen": [47.483333, 11.133333],
-  "Helsinki": [60.169856, 24.938379],
-  "Oslo": [59.913869, 10.752245],
-  "Melbourne": [-37.814107, 144.963280],
-  "Cortina d'Ampezzo": [46.547778, 12.153611],
-  "Rome": [41.902783, 12.496366],
-  "Squaw Valley": [39.2054083, -120.2567681],
-  "Tokyo": [35.689487, 139.691706],
-  "Innsbruck": [47.269212, 11.404102],
-  "Mexico City": [19.432608, -99.133208],
-  "Grenoble": [45.188529, 5.724524],
-  "Munich": [48.135125, 11.581981],
-  "Sapporo": [43.064167, 141.346944],
-  "Montreal": [45.501689, -73.567256],
-  "Moskva": [55.755826, 37.617300],
-  "Sarajevo": [43.856259, 18.413076],
-  "Seoul": [37.566535, 126.977969],
-  "Calgary": [51.048615, -114.070846],
-  "Barcelona": [41.385064, 2.173403],
-  "Albertville": [45.487222, 6.622222],
-  "Lillehammer": [61.115833, 10.466667],
-  "Atlanta": [33.748995, -84.387982],
-  "Nagano": [36.651111, 138.181111],
-  "Sydney": [-33.868820, 151.209296],
-  "Salt Lake City": [40.760779, -111.891047],
-  "Torino": [45.070312, 7.686856],
-  "Beijing": [39.904211, 116.407395],
-  "Vancouver": [49.282729, -123.120738],
-  "Sochi": [43.585525, 39.723062],
-  "Rio de Janeiro": [-22.906847, -43.172896]
-};
-
 // ViewModel KnockOut
 var vm = function () {
   console.log('ViewModel initiated...');
@@ -75,18 +30,10 @@ var vm = function () {
 
   //--- Internal functions
   function setMarkers() {
-    // Remove as cidades duplicadas, ao usar um Set
-    for (const city of [...new Set(self.records().map(r => r.CityName))]) {
-      const coordinates = COORDINATES[city];
-
-      if (!coordinates) {
-        console.log(`City ${city} not found`);
-        continue;
-      }
-      var marker = L.marker(COORDINATES[city]).addTo(map);
-      const dist = getDistanceFromLatLonInKm(coordinates[0], coordinates[1], loc.latitude, loc.longitude);
-      const years = self.records().filter(r => r.CityName === city).map(r => r.Year).join(', ');
-      marker.bindPopup(`City: ${city}<br/>Distance to your location: ~ ${dist}km<br/>Years: ${years}`);
+    for (const game of self.records()) {
+      const marker = L.marker([game.Lat, game.Lon]).addTo(map);
+      const dist = getDistanceFromLatLonInKm(game.Lat, game.Lon, loc.latitude, loc.longitude);
+      marker.bindPopup(`Location: ${game.CityName}, ${game.CountryName}<br/>Distance to your location: ~ ${dist}km<br/>Year: ${game.Year}`);
     }
   }
 
