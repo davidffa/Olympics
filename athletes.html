@@ -119,11 +119,25 @@
           <th scope="col">GENDER</th>
           <th scope="col">
             <div class="input-group d-flex justify-content-between align-items-end">
-              <div class="ms-5">
+              <div class="ms-2">
                 <select class="form-select form-select-sm" data-bind="options: countries" id="countriesSelect">
                   <option value="All Countries"></option>
                 </select>
               </div>
+
+              <!-- ko if: selectedCountry() == "All Countries" -->
+              <div class="ms-2">
+                <select class="form-select form-select-sm" id="sortBy">
+                  <option value="" selected>Order By</option>
+                  <option value="NameUp">Name (Asc)</option>
+                  <option value="NameDn">Name (Desc)</option>
+                  <option value="SexUp">Gender (Asc)</option>
+                  <option value="SexDn">Gender (Desc)</option>
+                  <option value="HeightUp">Height (Asc)</option>
+                  <option value="HeightDn">Height (Desc)</option>
+                </select>
+              </div>
+              <!-- /ko -->
 
               <div class="d-flex flex-column">
                 <div class="d-flex mb-2">
@@ -131,7 +145,7 @@
                   <label class="ms-2" for="favs">Only favourites</label>
                 </div>
 
-                <div class="d-flex">
+                <div class="d-flex" id="searchContainer">
                   <input type="search" id="searchBar" placeholder="Search athlete"
                     class="form-control form-control-sm" />
                   <button type="button" id="searchBtn" class="btn btn-sm">

@@ -54,6 +54,7 @@ var vm = function () {
   self.countries = ko.observableArray([]);
   self.selectedCountry = ko.observable('All Countries');
   self.selectedAthlete = ko.observable();
+  self.sortBy = ko.observable();
   self.selectAthlete = function (athlete) {
     showLoading();
 
@@ -114,9 +115,10 @@ var vm = function () {
   let countries;
 
   //--- Page Events
-  self.activate = function (id, countryName) {
+  self.activate = function (id, countryName, sortBy) {
     loadFavourites();
     self.currentPage(id);
+    self.sortBy(sortBy);
 
     if (countryName)
       self.selectedCountry(countryName);
@@ -149,14 +151,26 @@ var vm = function () {
       });
     });
 
+    if (self.sortBy()) {
+      $("#sortBy").val(self.sortBy()).change();
+    }
+
+    $("#sortBy").change(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('sortBy', $("#sortBy").val());
+      window.location.search = urlParams;
+    });
+
     // When searchbar input is modified
     $("#searchBar").on("input", () => {
       const value = $("#searchBar").val();
 
       if (value.length > 0) {
         $("#countriesSelect").addClass("d-none");
+        $("#sortBy").addClass("d-none");
       } else {
         $("#countriesSelect").removeClass("d-none");
+        $("#sortBy").removeClass("d-none");
         self.pagesize(20);
       }
 
@@ -189,14 +203,21 @@ var vm = function () {
     $("#favs").change(() => {
       if ($("#favs").is(":checked")) {
         $("#countriesSelect").addClass("d-none");
+        $("#searchContainer").addClass("d-none");
+        $("#sortBy").addClass("d-none");
         self.records(self.favourites());
       } else {
         if (self.selectedCountry() && self.selectedCountry() !== 'All Countries') {
           loadAthletesByCountry(1);
+        } else if ($("#searchBar").val().length > 0) {
+          searchAthletes($("#searchBar").val());
         } else {
           loadAthletes(1, self.selectedCountry());
         }
+
         $("#countriesSelect").removeClass("d-none");
+        $("#searchContainer").removeClass("d-none");
+        $("#sortBy").removeClass("d-none");
       }
     });
   };
@@ -204,6 +225,10 @@ var vm = function () {
   function loadAthletes(id) {
     console.log('CALL: getAthletes...');
     var composedUri = `${self.baseUri()}/athletes?page=${id}&pageSize=${self.pagesize()}`;
+
+    if (self.sortBy()) {
+      composedUri += `&sortBy=${self.sortBy()}`;
+    }
 
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
@@ -323,14 +348,21 @@ var vm = function () {
   showLoading();
   var pg = getUrlParameter('page');
   var country = getUrlParameter('country');
+  var sortBy = getUrlParameter('sortBy');
+
+  if (!['NameUp', 'NameDn', 'HeightUp', 'HeightDn', 'SexUp', 'SexDn'].includes(sortBy)) {
+    sortBy = null;
+  }
+
   if (country)
     country = country.replaceAll("+", " ");
   console.log(country);
   console.log(pg);
+  console.log(sortBy)
   if (pg == undefined)
-    self.activate(1, country);
+    self.activate(1, country, sortBy);
   else {
-    self.activate(pg, country);
+    self.activate(pg, country, sortBy);
   }
   console.log("VM initialized!");
 };
