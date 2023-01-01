@@ -81,10 +81,10 @@
         <ul class="pagination float-end">
           <!-- ko if: currentPage() > 3 && totalPages() > 5 -->
           <li class="page-item float-end"><a class="page-link" title="First Page"
-              data-bind="attr: { href: './athletes.html?page=' + '1' + '&country=' + selectedCountry() ,  rel:'prev'}"><i
+              data-bind="attr: { href: './athletes.html?page=' + '1' + '&country=' + selectedCountry() + '&sortBy=' + sortBy() ,  rel:'prev'}"><i
                 class="fa fa-fast-backward"></i></a></li>
           <li class="page-item float-end"><a class="page-link" title="Previous Page"
-              data-bind="attr: { href: './athletes.html?page=' + previousPage() + '&country=' + selectedCountry(),  rel:'prev'}"><i
+              data-bind="attr: { href: './athletes.html?page=' + previousPage() + '&country=' + selectedCountry() + '&sortBy=' + sortBy(),  rel:'prev'}"><i
                 class="fa fa-backward"></i></a></li>
           <!-- /ko -->
           <!-- ko foreach: pageArray()-->
@@ -94,16 +94,16 @@
           <!-- /ko -->
           <!-- ko if:$data != $parent.currentPage() -->
           <li class="page-item"><a class="page-link"
-              data-bind="attr: { href: './athletes.html?page=' + $data + '&country=' + $parent.selectedCountry(), title:'Goto Page ' + $data }, text:$data"></a>
+              data-bind="attr: { href: './athletes.html?page=' + $data + '&country=' + $parent.selectedCountry() + '&sortBy=' + $parent.sortBy(), title:'Goto Page ' + $data }, text:$data"></a>
           </li>
           <!-- /ko -->
           <!-- /ko -->
           <!-- ko if: currentPage() < totalPages() - 2 && totalPages() > 5 -->
           <li class="page-item"><a class="page-link" title="Next Page"
-              data-bind="attr: { href: './athletes.html?page=' + nextPage() + '&country=' + selectedCountry(), rel:'next' }"><i
+              data-bind="attr: { href: './athletes.html?page=' + nextPage() + '&country=' + selectedCountry() + '&sortBy=' + sortBy(), rel:'next' }"><i
                 class="fa fa-forward"></i></a></li>
           <li class="page-item"><a class="page-link" title="Last Page"
-              data-bind="attr: { href: './athletes.html?page=' + totalPages() + '&country=' + selectedCountry()}"><i
+              data-bind="attr: { href: './athletes.html?page=' + totalPages() + '&country=' + selectedCountry() + '&sortBy=' + sortBy()}"><i
                 class="fa fa-fast-forward"></i></a>
           </li>
           <!-- /ko -->
