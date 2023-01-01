@@ -350,7 +350,7 @@ var vm = function () {
   var country = getUrlParameter('country');
   var sortBy = getUrlParameter('sortBy');
 
-  if (!['NameUp', 'NameDn', 'HeightUp', 'HeightDn', 'SexUp', 'SexDn'].includes(sortBy)) {
+  if (!['NameUp', 'NameDn', 'HeightUp', 'HeightDn', 'SexUp', 'SexDn', 'BornDateUp', 'BornDateDn', 'DiedDateUp', 'DiedDateDn'].includes(sortBy)) {
     sortBy = null;
   }
 
