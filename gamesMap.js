@@ -17,13 +17,21 @@ var vm = function () {
     var composedUri = `${baseUri}?page=1&pageSize=100`;
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
-
       self.records(data.Records);
+
+      if (loc) {
+        loadMap();
+        console.log("MAP LOADED!")
+      }
     });
 
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       loc = coords;
-      loadMap();
+      console.log("Location ", loc);
+      if (self.records().length > 0) {
+        console.log("LOC LOADED!")
+        loadMap();
+      }
     }, () => alert("Please enable location to use this page"));
   }
 
