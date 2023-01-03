@@ -174,7 +174,7 @@ var vm = function () {
         self.pagesize(20);
       }
 
-      if (value.length < 3) {
+      if (value.length <= 3) {
         if (value.length === 0) {
           if (self.selectedCountry() && self.selectedCountry() !== 'All Countries') {
             const country = countries.find(c => c.Name === countryName);
