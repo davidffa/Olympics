@@ -1,6 +1,3 @@
-var map;
-var loc;
-
 // ViewModel KnockOut
 var vm = function () {
   console.log('ViewModel initiated...');
@@ -11,6 +8,9 @@ var vm = function () {
   self.error = ko.observable('');
   self.records = ko.observableArray([]);
 
+  let map;
+  let loc;
+
   //--- Page Events
   self.activate = function () {
     console.log('CALL: getGames...');
@@ -19,18 +19,20 @@ var vm = function () {
       console.log(data);
       self.records(data.Records);
 
-      if (loc) {
-        loadMap();
-        console.log("MAP LOADED!")
+      if (map) {
+        setMarkers();
+        hideLoading();
       }
     });
 
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       loc = coords;
-      console.log("Location ", loc);
+
+      loadMap();
+
       if (self.records().length > 0) {
-        console.log("LOC LOADED!")
-        loadMap();
+        setMarkers();
+        hideLoading();
       }
     }, () => alert("Please enable location to use this page"));
   }
@@ -65,8 +67,6 @@ var vm = function () {
 
     // MapBox
     L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZGF2aWRmZmEiLCJhIjoiY2xjNWJvazJhMDk2cTNuc2E2bXV3MzU2bCJ9.h8NGtvVfph5bKZlx1u3tWw").addTo(map);
-    setMarkers();
-    hideLoading();
   }
 
   function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -110,6 +110,9 @@ var vm = function () {
     });
   }
   function hideLoading() {
+    $('#myModal').on('shown.bs.modal', function (e) {
+      $("#myModal").modal('hide');
+    })
     $("#myModal").modal('hide');
   }
 
