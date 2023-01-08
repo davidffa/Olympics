@@ -191,7 +191,8 @@ var vm = function () {
         }
         return;
       }
-      searchAthletes(value);
+      autoComplete(value);
+      // searchAthletes(value);
     });
 
     // When search button is clicked
@@ -278,6 +279,18 @@ var vm = function () {
         }
       }
     }
+  }
+
+  function autoComplete(query) {
+    const url = `${self.baseUri()}/athletes/searchbyname?q=${query}`;
+
+    ajaxHelper(url, 'GET').done((data) => {
+      data = data.slice(0, 5);
+
+      $("#searchBar").autocomplete({
+        source: data.map(d => d.Name),
+      });
+    });
   }
 
   function searchAthletes(query) {
