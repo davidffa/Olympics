@@ -24,16 +24,33 @@ var vm = function () {
 
   function loadMedalsChart() {
     const ctx = document.getElementById('chart');
+    const labels = [];
+    const backgroundColor = [];
+
+    if (self.BronzeCount() > 0) {
+      labels.push('Bronze');
+      backgroundColor.push('#cd7f32');
+    }
+
+    if (self.SilverCount() > 0) {
+      labels.push('Silver');
+      backgroundColor.push('#c0c0c0');
+    }
+
+    if (self.GoldCount() > 0) {
+      labels.push('Gold');
+      backgroundColor.push('#ffd700');
+    }
 
     new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['Bronze', 'Silver', 'Gold'],
+        labels,
         datasets: [
           {
             label: 'Medals',
             data: [self.BronzeCount(), self.SilverCount(), self.GoldCount()],
-            backgroundColor: ['#cd7f32', '#c0c0c0', '#ffd700'],
+            backgroundColor,
           }
         ]
       },
@@ -70,7 +87,10 @@ var vm = function () {
       self.SilverCount(medals[1].Counter);
       self.BronzeCount(medals[2].Counter);
 
-      loadMedalsChart();
+      if (self.GoldCount() > 0 || self.SilverCount() > 0 || self.BronzeCount() > 0) {
+        loadMedalsChart();
+      }
+
       hideLoading();
     });
   }
