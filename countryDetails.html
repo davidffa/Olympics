@@ -81,24 +81,16 @@
 
     <a href="./countries.html" class="btn btn-default mb-4"><i class="fa fa-list"></i> Back to List</a>
 
-    <div class="mb-2">
-      <h4>Medals:</h4>
-      <div class="d-flex justify-content-between w-25 mt-4">
-        <div class="d-flex flex-column align-items-center">
-          <img src="./assets/gold.svg" alt="gold medal" height="50">
-          <p data-bind="text: GoldCount()"></p>
-        </div>
-        <div class="d-flex flex-column align-items-center">
-          <img src="./assets/silver.svg" alt="silver medal" height="50">
-          <p data-bind="text: SilverCount()"></p>
-        </div>
-        <div class="d-flex flex-column align-items-center">
-
-          <img src="./assets/bronze.svg" alt="bronze medal" height="50">
-          <p data-bind="text: BronzeCount()"></p>
-        </div>
-      </div>
+    <!-- ko if: BronzeCount() > 0 || SilverCount() > 0 || BronzeCount() > 0 -->
+    <div class="mx-auto mb-5" style="width: 400px;height:400px;">
+      <canvas id="chart"></canvas>
     </div>
+    <!-- /ko -->
+    <!-- ko ifnot: BronzeCount() > 0 || SilverCount() > 0 || BronzeCount() > 0 -->
+    <div class="my-3">
+      No Medals :(
+    </div>
+    <!-- /ko -->
 
     <div class="accordion" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
@@ -242,6 +234,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
   <script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="countryDetails.js"></script>
 </body>
 

@@ -22,6 +22,36 @@ var vm = function () {
     loadCountries(id);
   };
 
+  function loadMedalsChart() {
+    const ctx = document.getElementById('chart');
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Bronze', 'Silver', 'Gold'],
+        datasets: [
+          {
+            label: 'Medals',
+            data: [self.BronzeCount(), self.SilverCount(), self.GoldCount()],
+            backgroundColor: ['#cd7f32', '#c0c0c0', '#ffd700'],
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Medals'
+          }
+        }
+      },
+    });
+  }
+
   function loadCountryMedals(id) {
     console.log('CALL: loadCountryMedals');
     const composedUri = `${BASE_URI}/statistics/medals_country`
@@ -39,6 +69,8 @@ var vm = function () {
       self.GoldCount(medals[0].Counter);
       self.SilverCount(medals[1].Counter);
       self.BronzeCount(medals[2].Counter);
+
+      loadMedalsChart();
       hideLoading();
     });
   }
