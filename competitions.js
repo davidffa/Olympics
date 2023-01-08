@@ -83,7 +83,7 @@ var vm = function () {
   $("#searchBar").on("input", () => {
     const value = $("#searchBar").val();
 
-    if (value.length >= 1) {
+    if (value.length >= 3) {
       searchModalities(value);
     } else {
       let id = getUrlParameter('page');
