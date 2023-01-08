@@ -85,7 +85,7 @@ var vm = function () {
 
     if (value.length >= 3) {
       searchModalities(value);
-    } else {
+    } else if (value.length === 0) {
       let id = getUrlParameter('page');
       if (id === undefined)
         id = 1;
