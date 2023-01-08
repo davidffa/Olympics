@@ -175,6 +175,10 @@ var vm = function () {
       }
 
       if (value.length <= 3) {
+        $("#searchBar").autocomplete({
+          source: []
+        });
+
         if (value.length === 0) {
           if (self.selectedCountry() && self.selectedCountry() !== 'All Countries') {
             const country = countries.find(c => c.Name === countryName);
