@@ -84,12 +84,16 @@ var vm = function () {
     const value = $("#searchBar").val();
 
     if (value.length >= 3) {
-      searchModalities(value);
+      autoComplete(value);
+      // searchModalities(value);
     } else if (value.length === 0) {
       let id = getUrlParameter('page');
       if (id === undefined)
         id = 1;
       loadCompetitions(id);
+      $("#searchBar").autocomplete({
+        source: []
+      });
     }
   });
 
@@ -97,6 +101,17 @@ var vm = function () {
   $("#searchBtn").click(() => {
     searchModalities($("#searchBar").val());
   });
+
+  function autoComplete(query) {
+    console.log('CALL: searchModalities...');
+    const composedUri = `${baseUri}/competitions/searchbyname?q=${query}`;
+    ajaxHelper(composedUri, 'GET').done(function (data) {
+      console.log(data);
+      $("#searchBar").autocomplete({
+        source: data.map(it => it.Name)
+      });
+    });
+  }
 
   function searchModalities(val) {
     console.log('CALL: searchModalities...');

@@ -175,6 +175,10 @@ var vm = function () {
       }
 
       if (value.length <= 3) {
+        $("#searchBar").autocomplete({
+          source: []
+        });
+
         if (value.length === 0) {
           if (self.selectedCountry() && self.selectedCountry() !== 'All Countries') {
             const country = countries.find(c => c.Name === countryName);
@@ -191,7 +195,8 @@ var vm = function () {
         }
         return;
       }
-      searchAthletes(value);
+      autoComplete(value);
+      // searchAthletes(value);
     });
 
     // When search button is clicked
@@ -278,6 +283,18 @@ var vm = function () {
         }
       }
     }
+  }
+
+  function autoComplete(query) {
+    const url = `${self.baseUri()}/athletes/searchbyname?q=${query}`;
+
+    ajaxHelper(url, 'GET').done((data) => {
+      data = data.slice(0, 5);
+
+      $("#searchBar").autocomplete({
+        source: data.map(d => d.Name),
+      });
+    });
   }
 
   function searchAthletes(query) {
