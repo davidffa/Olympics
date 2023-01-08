@@ -53,9 +53,31 @@ var vm = function () {
     });
   }
 
+  self.favourites = ko.observableArray([]);
+  self.toggleFavourite = (competition) => {
+    if (self.favourites().find(it => it.Id === competition.Id)) {
+      self.favourites.splice(self.favourites().findIndex(it => it.Id === competition.Id), 1)
+    } else {
+      self.favourites.push(competition);
+    }
+
+    localStorage.setItem("fav_competitions", JSON.stringify(self.favourites()));
+  }
+
+  /**
+   * Carrega os atletas favoritos do local storage
+   */
+  function loadFavourites() {
+    const favs = JSON.parse(localStorage.getItem("fav_competitions"));
+    if (favs) {
+      self.favourites(favs);
+    }
+  }
+
   // Page events
   self.activate = function (id) {
     loadCompetitions(id);
+    loadFavourites();
   }
 
   $("#searchBar").on("input", () => {

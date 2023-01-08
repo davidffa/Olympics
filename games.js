@@ -23,8 +23,30 @@ var vm = function () {
     });
   }
 
+  self.favourites = ko.observableArray([]);
+  self.toggleFavourite = (game) => {
+    if (self.favourites().find(it => it.Id === game.Id)) {
+      self.favourites.splice(self.favourites().findIndex(it => it.Id === game.Id), 1)
+    } else {
+      self.favourites.push(game);
+    }
+
+    localStorage.setItem("fav_games", JSON.stringify(self.favourites()));
+  }
+
+  /**
+   * Carrega os atletas favoritos do local storage
+   */
+  function loadFavourites() {
+    const favs = JSON.parse(localStorage.getItem("fav_games"));
+    if (favs) {
+      self.favourites(favs);
+    }
+  }
+
   //--- Page Events
   self.activate = function () {
+    loadFavourites();
     console.log('CALL: getGames...');
     var composedUri = `${BASE_URI}/games?page=1&pagesize=100`
     ajaxHelper(composedUri, 'GET').done(function (data) {
