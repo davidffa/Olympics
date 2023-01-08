@@ -18,19 +18,21 @@ var vm = function () {
 
   //--- Page Events
   self.activate = function (id) {
-    console.log('CALL: getCountryDetails...');
     loadCountryMedals(id);
     loadCountries(id);
   };
 
   function loadCountryMedals(id) {
+    console.log('CALL: loadCountryMedals');
     const composedUri = `${BASE_URI}/statistics/medals_country`
     ajaxHelper(composedUri, 'GET').done(function (data) {
-      console.log(id);
       console.log(data);
       const country = data.find(it => it.CountryId == id);
 
-      if (!country) return;
+      if (!country) {
+        hideLoading();
+        return;
+      }
 
       const medals = country.Medals;
 
@@ -42,6 +44,7 @@ var vm = function () {
   }
 
   function loadCountries(id) {
+    console.log('CALL: loadCountries');
     const composedUri = `${BASE_URI}/countries/${id}`
     ajaxHelper(composedUri, 'GET').done(function (data) {
       console.log(data);
